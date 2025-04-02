@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2hut3br04uqm"]
+
+[ext_resource type="Texture2D" uid="uid://qshjgrdlppys" path="res://icon.svg" id="1_84ld5"]
+[ext_resource type="Texture2D" uid="uid://dhr1hbu3sgl8j" path="res://assets/AngkotHijau.png" id="2_6ss4y"]
+
+[node name="CustomButton" type="Node"]
+
+[node name="TextureButton" type="TextureButton" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+tooltip_text = "halo"
+texture_normal = ExtResource("1_84ld5")
+texture_pressed = ExtResource("2_6ss4y")
+
+[node name="Label" type="Label" parent="TextureButton"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 71.0
+offset_right = 200.0
+offset_bottom = 94.0
+text = "halo"
