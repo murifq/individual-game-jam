@@ -8,6 +8,7 @@ var game_minutes: int = 0
 var game_hours: int = 8  # Start at 8 AM
 var game_days: int = 1
 var is_paused: bool = false
+var selected_angkot: Angkot = null 
 
 func reset_game():
 	money = 25000
@@ -34,6 +35,8 @@ func reset_game():
 
 	angkots.append(a1)
 	angkots.append(a2)
+	
+
 	
 
 # Format time as HH:MM

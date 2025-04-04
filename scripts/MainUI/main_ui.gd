@@ -15,7 +15,7 @@ func update_ui():
 	
 	 #Clear existing items except templates
 	for child in angkot_list.get_children():
-		if child != angkot_item_template:
+		#if child != angkot_item_template:
 			child.queue_free()
 	
 	# Hide the template button
@@ -26,9 +26,12 @@ func update_ui():
 		# Duplicate the AngkotButton template
 		var angkot_item = angkot_item_template.duplicate()
 		#button.visible = true
-		
+		# Set size constraints
+		angkot_item.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		angkot_item.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		# Update the content inside the button
 		var AngkotImage = angkot_item.get_node("AngkotImage")
+		
 		#var color_rect = angkot_item.get_node("AngkotItemColored")
 		var AngkotLabel = angkot_item.get_node("AngkotLabel")
 		
@@ -44,12 +47,16 @@ func update_ui():
 		# Add texture (optional if you want to add an image)
 		var texture_rect = angkot_item.get_node("AngkotImage")
 		texture_rect.set_texture_normal(load(angkot.image_path))
+		#texture_rect.rect_min_size = Vector2(128, 128)  # Set image size to 128x128
 		print(texture_rect.get_texture_normal())
 		#print(texture_rect.set_texture_normal())
 		#texture_rect.texture = load(angkot.image_path)
 		
 		# Connect the button's pressed signal to navigate to AngkotDetail
-		#button.pressed.connect(self._on_angkot_button_pressed)
+# Connect the button's pressed signal to navigate to AngkotDetail
+		AngkotLabel.pressed.connect(self._on_angkot_button_pressed.bind(angkot))
+		AngkotImage.pressed.connect(self._on_angkot_button_pressed.bind(angkot))
+
 		#print(angkot is Angkot)
 		# Add the button to the AngkotList
 		angkot_list.add_child(angkot_item)
@@ -58,10 +65,10 @@ func update_time_display():
 	label_timer.text = "%s | %s" % [Global.get_day_string(), Global.get_time_string()]
 
 # Handle button press
-func _on_angkot_button_pressed():
-	# Store the selected angkot in Global
-	#Global.selected_angkot = angkot
-	print("Hello")
+func _on_angkot_button_pressed(angkot: Angkot):
+	# Store the selected Angkot in Global
+	Global.selected_angkot = angkot
+	print("Angkot selected:", angkot.name)
 	
 	# Change to the AngkotDetail scene
-	#get_tree().change_scene("res://scenes/AngkotDetail/AngkotDetail.tscn")
+	get_tree().change_scene_to_file("res://scenes/MainUI/AngkotDetail.tscn")

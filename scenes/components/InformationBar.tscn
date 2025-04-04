@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6243b85k6e7"]
+
+[ext_resource type="Script" path="res://scripts/components/information_bar.gd" id="1_30qm0"]
+[ext_resource type="Script" path="res://scripts/time/time_manager.gd" id="2_jcqvt"]
+
+[node name="InformationBar" type="HBoxContainer" groups=["time_display"]]
+custom_minimum_size = Vector2(0, 23)
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/separation = 500
+alignment = 1
+script = ExtResource("1_30qm0")
+
+[node name="LabelMoney" type="Label" parent="."]
+layout_mode = 2
+
+[node name="LabelTimer" type="Label" parent="."]
+layout_mode = 2
+text = "halo"
+
+[node name="TimeManager" type="Node" parent="." groups=["time_display"]]
+script = ExtResource("2_jcqvt")
+
+[node name="Timer" type="Timer" parent="TimeManager"]
+autostart = true
+
+[connection signal="timeout" from="TimeManager/Timer" to="TimeManager" method="_on_timer_timeout"]

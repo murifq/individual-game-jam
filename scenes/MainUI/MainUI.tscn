@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://d1dxhlx0pw8bv"]
 
 [ext_resource type="Script" path="res://scripts/MainUI/main_ui.gd" id="1_6gwic"]
-[ext_resource type="Texture2D" uid="uid://qshjgrdlppys" path="res://icon.svg" id="2_6emwj"]
+[ext_resource type="Texture2D" uid="uid://dhr1hbu3sgl8j" path="res://assets/AngkotHijau.png" id="2_ciema"]
 [ext_resource type="Script" path="res://scripts/time/time_manager.gd" id="2_ldgwc"]
 
 [node name="MainUI" type="ColorRect" groups=["time_display"]]
@@ -14,12 +14,14 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_6gwic")
-metadata/_edit_use_anchors_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 2
-offset_right = 1152.0
-offset_bottom = 648.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -34,9 +36,12 @@ layout_mode = 2
 text = "halo"
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 2
-offset_right = 1152.0
-offset_bottom = 648.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_top = 30
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
@@ -45,15 +50,18 @@ layout_mode = 2
 [node name="AngkotList" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="AngkotItem" type="HBoxContainer" parent="MarginContainer/ScrollContainer/AngkotList"]
 layout_mode = 2
 
 [node name="AngkotImage" type="TextureButton" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem"]
+custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
-texture_normal = ExtResource("2_6emwj")
+texture_normal = ExtResource("2_ciema")
 
 [node name="AngkotLabel" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem"]
+custom_minimum_size = Vector2(1152, 128)
 layout_mode = 2
 text = "halo aku ganteng bgt loh masa kamu gamau"
 flat = true
