@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://d1dxhlx0pw8bv"]
+[gd_scene load_steps=5 format=3 uid="uid://d1dxhlx0pw8bv"]
 
 [ext_resource type="Script" path="res://scripts/MainUI/main_ui.gd" id="1_6gwic"]
 [ext_resource type="Texture2D" uid="uid://dhr1hbu3sgl8j" path="res://assets/AngkotHijau.png" id="2_ciema"]
 [ext_resource type="PackedScene" uid="uid://c6243b85k6e7" path="res://scenes/components/InformationBar.tscn" id="2_mlvbv"]
+[ext_resource type="Script" path="res://scripts/time/time_manager.gd" id="4_bkq7u"]
 
 [node name="MainUI" type="ColorRect" groups=["time_display"]]
 anchors_preset = 15
@@ -65,7 +66,24 @@ layout_mode = 2
 texture_normal = ExtResource("2_ciema")
 
 [node name="AngkotLabel" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem"]
-custom_minimum_size = Vector2(1152, 128)
+custom_minimum_size = Vector2(650, 128)
 layout_mode = 2
-text = "halo aku ganteng bgt loh masa kamu gamau"
+text = "Angkot Name
+Lv.1 | Speed: 40 | Cap: 6 | Income: Rp 1000 | Condition: 100%"
 flat = true
+
+[node name="RepairButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem"]
+layout_mode = 2
+text = "Repair"
+
+[node name="SellButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem"]
+layout_mode = 2
+text = "Sell"
+
+[node name="TimeManager" type="Node" parent="." groups=["time_display"]]
+script = ExtResource("4_bkq7u")
+
+[node name="Timer" type="Timer" parent="TimeManager"]
+autostart = true
+
+[connection signal="timeout" from="TimeManager/Timer" to="." method="_on_timer_timeout"]

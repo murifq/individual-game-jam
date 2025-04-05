@@ -7,64 +7,54 @@ extends Control
 
 func _ready():
 	if not Global.is_initialized:
-		Global.reset_game()  # Only reset the game if it hasn't been initialized
+		Global.reset_game()
+
+	# Keep a reference to the template and make it invisible
+	angkot_item_template.visible = false
+
 	update_ui()
 
 func update_ui():
 	label_money.text = "Duit: Rp " + str(Global.money)
-	
-	 #Clear existing items except templates
+
+	# Clear existing items EXCEPT the template
 	for child in angkot_list.get_children():
-		#if child != angkot_item_template:
+		if child != angkot_item_template:  # Skip the template
 			child.queue_free()
-	
-	# Hide the template button
-	#angkot_item_template.visible = false
-	
-	# Create a button for each angkot
+
+	# Create buttons for each angkot
 	for angkot in Global.angkots:
-		# Duplicate the AngkotButton template
 		var angkot_item = angkot_item_template.duplicate()
-		#button.visible = true
-		# Set size constraints
-		angkot_item.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		angkot_item.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		# Update the content inside the button
+		angkot_item.visible = true
+
 		var AngkotImage = angkot_item.get_node("AngkotImage")
-		
-		#var color_rect = angkot_item.get_node("AngkotItemColored")
 		var AngkotLabel = angkot_item.get_node("AngkotLabel")
-		
+		var RepairButton = angkot_item.get_node("RepairButton")
+		var SellButton = angkot_item.get_node("SellButton")
+
 		# Set the label text
-		AngkotLabel.text = "%s\nLv.%d | Speed: %d | Cap: %d | Income: Rp %d" % [
+		AngkotLabel.text = "%s\nLv.%d | Speed: %d | Cap: %d | Income: Rp %d | Condition: %.1f%%" % [
 			angkot.name,
 			angkot.upgrade_level,
 			angkot.speed,
 			angkot.capacity,
-			angkot.income_per_passenger
+			angkot.income_per_passenger,
+			angkot.condition
 		]
-		
-		# Add texture (optional if you want to add an image)
-		var texture_rect = angkot_item.get_node("AngkotImage")
-		texture_rect.set_texture_normal(load(angkot.image_path))
-		#texture_rect.rect_min_size = Vector2(128, 128)  # Set image size to 128x128
-		print(texture_rect.get_texture_normal())
-		#print(texture_rect.set_texture_normal())
-		#texture_rect.texture = load(angkot.image_path)
-		
-		# Connect the button's pressed signal to navigate to AngkotDetail
-# Connect the button's pressed signal to navigate to AngkotDetail
+
+		# Add texture
+		AngkotImage.set_texture_normal(load(angkot.image_path))
+
+		# Connect buttons
 		AngkotLabel.pressed.connect(self._on_angkot_button_pressed.bind(angkot))
 		AngkotImage.pressed.connect(self._on_angkot_button_pressed.bind(angkot))
+		RepairButton.text = "Repair (Rp 5000)"
+		RepairButton.connect("pressed", self._on_repair_button_pressed.bind(angkot))
+		SellButton.text = "Sell (Rp %d)" % angkot.calculate_sell_price()
+		SellButton.connect("pressed", self._on_sell_button_pressed.bind(angkot))
 
-		#print(angkot is Angkot)
-		# Add the button to the AngkotList
 		angkot_list.add_child(angkot_item)
 
-#func update_time_display():
-	#label_timer.text = "%s | %s" % [Global.get_day_string(), Global.get_time_string()]
-
-# Handle button press
 func _on_angkot_button_pressed(angkot: Angkot):
 	# Store the selected Angkot in Global
 	Global.selected_angkot = angkot
@@ -72,3 +62,25 @@ func _on_angkot_button_pressed(angkot: Angkot):
 	
 	# Change to the AngkotDetail scene
 	get_tree().change_scene_to_file("res://scenes/MainUI/AngkotDetail.tscn")
+
+func _on_repair_button_pressed(angkot: Angkot):
+	# Repair the angkot if the player has enough money
+	var repair_cost = 500000
+	if Global.money >= repair_cost:
+		Global.money -= repair_cost
+		angkot.repair()
+		print("%s has been repaired!" % angkot.name)
+		update_ui()
+	else:
+		print("Not enough money to repair %s!" % angkot.name)
+
+func _on_sell_button_pressed(angkot: Angkot):
+	# Sell the angkot and update the player's money
+	var sell_price = angkot.calculate_sell_price()
+	Global.money += sell_price
+	Global.angkots.erase(angkot)  # Remove the angkot from the list
+	print("%s sold for Rp %d!" % [angkot.name, sell_price])
+	update_ui()
+
+func _on_timer_timeout():
+	_ready()

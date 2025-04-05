@@ -12,7 +12,7 @@ var condition: float = 100.0  # Condition percentage (100% = perfect, 0% = broke
 
 func operate():
 	# Generate money based on capacity and income per passenger
-	var income = capacity * income_per_passenger / 10
+	var income = capacity * income_per_passenger
 	Global.money += income
 	
 	# Increase operation time and decrease condition
@@ -27,4 +27,14 @@ func operate():
 func repair():
 	# Repair the angkot and restore its condition
 	condition = 100.0
+	#Global.money -= 500000
 	print("%s has been repaired!" % name)
+
+func calculate_sell_price() -> int:
+	# Base price is determined by capacity and income per passenger
+	var base_price = capacity * income_per_passenger * 10
+	# Reduce price based on operation time (e.g., 1% per 10 operation time)
+	var time_depreciation = base_price * (operation_time / 1000.0)
+	# Reduce price further based on condition
+	var condition_factor = condition / 100.0
+	return int(base_price - time_depreciation) * condition_factor
