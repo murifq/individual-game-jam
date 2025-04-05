@@ -1,6 +1,6 @@
 extends Node
 
-var money: int = 0
+var money: int = 25000
 var angkots: Array[Angkot] = []
 
 # Time variables
@@ -10,6 +10,7 @@ var game_days: int = 1
 var is_paused: bool = false
 var selected_angkot: Angkot = null 
 
+var is_initialized: bool = false 
 func reset_game():
 	money = 25000
 	angkots.clear()
@@ -35,6 +36,7 @@ func reset_game():
 
 	angkots.append(a1)
 	angkots.append(a2)
+	is_initialized = true 
 	
 
 	

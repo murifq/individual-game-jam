@@ -21,6 +21,8 @@ func _on_timer_timeout():
 	
 	# Debugging output
 	#print("Time updated: Day %d, %02d:%02d" % [Global.game_days, Global.game_hours, Global.game_minutes])
-	
+	   # Operate all angkots
+	for angkot in Global.angkots:
+		angkot.operate()
 	# Update the UI timer
 	get_tree().call_group("time_display", "update_time_display")

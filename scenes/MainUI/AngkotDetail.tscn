@@ -1,10 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://s3rywcwdhtn1"]
+[gd_scene load_steps=3 format=3 uid="uid://s3rywcwdhtn1"]
 
 [ext_resource type="Script" path="res://scripts/MainUI/angkot_detail.gd" id="1_d53li"]
-[ext_resource type="Texture2D" uid="uid://dhr1hbu3sgl8j" path="res://assets/AngkotHijau.png" id="1_pev3s"]
 [ext_resource type="PackedScene" uid="uid://c6243b85k6e7" path="res://scenes/components/InformationBar.tscn" id="3_txvqu"]
 
-[node name="DetailAngkot" type="ColorRect" groups=["time_display"]]
+[node name="DetailAngkot" type="ColorRect"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,10 +16,34 @@ script = ExtResource("1_d53li")
 layout_mode = 1
 offset_bottom = 23.0
 
-[node name="AngkotImage" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 1.0
-offset_top = 45.0
-offset_right = 129.0
-offset_bottom = 173.0
-texture = ExtResource("1_pev3s")
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="AngkotImage" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+stretch_mode = 2
+
+[node name="AngkotName" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Angkot Name"
+horizontal_alignment = 1
+
+[node name="AngkotStats" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Angkot Stats"
+horizontal_alignment = 1
+
+[node name="BackButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Back"

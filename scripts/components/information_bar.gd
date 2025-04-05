@@ -11,3 +11,4 @@ func update_ui():
 	
 func update_time_display():
 	label_timer.text = "%s | %s" % [Global.get_day_string(), Global.get_time_string()]
+	label_money.text = "Duit: Rp " + str(Global.money)

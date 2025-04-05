@@ -6,7 +6,8 @@ extends Control
 @onready var angkot_item_template = $MarginContainer/ScrollContainer/AngkotList/AngkotItem
 
 func _ready():
-	Global.reset_game()
+	if not Global.is_initialized:
+		Global.reset_game()  # Only reset the game if it hasn't been initialized
 	update_ui()
 
 func update_ui():
