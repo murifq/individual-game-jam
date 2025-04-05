@@ -7,10 +7,8 @@ func _ready():
 func _on_timer_timeout():
 	if Global.is_paused:
 		return
-	
 	# Update game minutes
 	Global.game_minutes += 1
-	
 	# Handle minute rollover
 	if Global.game_minutes >= 60:
 		Global.game_minutes = 0

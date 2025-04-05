@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/MainUI/main_ui.gd" id="1_6gwic"]
 [ext_resource type="Texture2D" uid="uid://dhr1hbu3sgl8j" path="res://assets/AngkotHijau.png" id="2_ciema"]
-[ext_resource type="Script" path="res://scripts/time/time_manager.gd" id="2_ldgwc"]
+[ext_resource type="PackedScene" uid="uid://c6243b85k6e7" path="res://scenes/components/InformationBar.tscn" id="2_mlvbv"]
 
 [node name="MainUI" type="ColorRect" groups=["time_display"]]
 anchors_preset = 15
@@ -28,12 +28,16 @@ layout_mode = 2
 theme_override_constants/separation = 500
 alignment = 1
 
+[node name="InformationBar" parent="VBoxContainer/HBoxContainer" instance=ExtResource("2_mlvbv")]
+layout_mode = 2
+
 [node name="LabelMoney" type="Label" parent="VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="LabelTimer" type="Label" parent="VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
-text = "halo"
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -65,11 +69,3 @@ custom_minimum_size = Vector2(1152, 128)
 layout_mode = 2
 text = "halo aku ganteng bgt loh masa kamu gamau"
 flat = true
-
-[node name="TimeManager" type="Node" parent="." groups=["time_display"]]
-script = ExtResource("2_ldgwc")
-
-[node name="Timer" type="Timer" parent="TimeManager"]
-autostart = true
-
-[connection signal="timeout" from="TimeManager/Timer" to="TimeManager" method="_on_timer_timeout"]

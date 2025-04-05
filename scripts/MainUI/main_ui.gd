@@ -8,7 +8,6 @@ extends Control
 func _ready():
 	Global.reset_game()
 	update_ui()
-	update_time_display()
 
 func update_ui():
 	label_money.text = "Duit: Rp " + str(Global.money)
@@ -61,8 +60,8 @@ func update_ui():
 		# Add the button to the AngkotList
 		angkot_list.add_child(angkot_item)
 
-func update_time_display():
-	label_timer.text = "%s | %s" % [Global.get_day_string(), Global.get_time_string()]
+#func update_time_display():
+	#label_timer.text = "%s | %s" % [Global.get_day_string(), Global.get_time_string()]
 
 # Handle button press
 func _on_angkot_button_pressed(angkot: Angkot):
