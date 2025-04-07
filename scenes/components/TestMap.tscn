@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1yujiathak88"]
+[gd_scene load_steps=2 format=3 uid="uid://0m2qbw1jqale"]
 
-[ext_resource type="PackedScene" uid="uid://b0brb7xcbmrx" path="res://scenes/components/RegionMap.tscn" id="1_461kj"]
+[ext_resource type="PackedScene" uid="uid://d3vmg8vhant23" path="res://scenes/components/RegionMap.tscn" id="1_461kj"]
 
 [node name="TestMap" type="ColorRect"]
 anchors_preset = 15
