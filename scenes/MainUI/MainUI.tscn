@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://d1dxhlx0pw8bv"]
+[gd_scene load_steps=7 format=3 uid="uid://d1dxhlx0pw8bv"]
 
 [ext_resource type="Script" path="res://scripts/MainUI/main_ui.gd" id="1_6gwic"]
 [ext_resource type="Texture2D" uid="uid://dhr1hbu3sgl8j" path="res://assets/AngkotHijau.png" id="2_ciema"]
 [ext_resource type="PackedScene" uid="uid://c6243b85k6e7" path="res://scenes/components/InformationBar.tscn" id="2_mlvbv"]
+[ext_resource type="PackedScene" uid="uid://opbbvmkd64fl" path="res://scenes/MainUI/TerminalAnimation.tscn" id="2_terminal_animation"]
 [ext_resource type="Script" path="res://scripts/time/time_manager.gd" id="4_bkq7u"]
+[ext_resource type="PackedScene" uid="uid://bo6nhkikk0432" path="res://scenes/components/AngkotMap.tscn" id="6_mmsum"]
 
 [node name="MainUI" type="ColorRect" groups=["time_display"]]
 anchors_preset = 15
@@ -40,11 +42,29 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 500
+alignment = 1
+
+[node name="LabelTimer" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Armada Kamu"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 500
+alignment = 1
+
+[node name="TerminalAnimation" parent="VBoxContainer/HBoxContainer3" instance=ExtResource("2_terminal_animation")]
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 427.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_top = 30
@@ -80,10 +100,23 @@ text = "Repair"
 layout_mode = 2
 text = "Sell"
 
+[node name="AssignDriverButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem"]
+layout_mode = 2
+text = "Assign Driver"
+
 [node name="TimeManager" type="Node" parent="." groups=["time_display"]]
 script = ExtResource("4_bkq7u")
 
 [node name="Timer" type="Timer" parent="TimeManager"]
 autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="AngkotMap" parent="CanvasLayer" instance=ExtResource("6_mmsum")]
+offset_left = 345.0
+offset_top = 35.0
+offset_right = -265.0
+offset_bottom = -78.0
+scale = Vector2(0.5, 0.5)
 
 [connection signal="timeout" from="TimeManager/Timer" to="." method="_on_timer_timeout"]

@@ -1,0 +1,7 @@
+{
+	"#3fff31" : "Jakarta Barat"
+	,"#d44a31" : "Jakarta Utara"
+	,"#d49f48" : "Jakarta Timur"
+	,"#d48da0" : "Jakarta Pusat"
+	,"#278da0" : "Jakarta Selatan"
+}

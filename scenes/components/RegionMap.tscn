@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0brb7xcbmrx"]
+
+[ext_resource type="Script" path="res://scripts/components/region_map.gd" id="1_laidh"]
+[ext_resource type="Texture2D" uid="uid://bpim64uek8d2f" path="res://Map_data/region_map.png" id="1_ncdgd"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_laidh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ncdgd")
+
+[node name="Camera2D" type="Camera2D" parent="Sprite2D"]
+
+[node name="Regions" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = 1
