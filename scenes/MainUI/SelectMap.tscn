@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://cmigjxcpw4ll3"]
+[gd_scene load_steps=5 format=3 uid="uid://cmigjxcpw4ll3"]
 
 [ext_resource type="PackedScene" uid="uid://bo6nhkikk0432" path="res://scenes/components/AngkotMap.tscn" id="1_3oxds"]
 [ext_resource type="Script" path="res://scripts/MainUI/select_map.gd" id="1_571lt"]
+[ext_resource type="PackedScene" uid="uid://c6243b85k6e7" path="res://scenes/components/InformationBar.tscn" id="2_rly7m"]
+[ext_resource type="Script" path="res://scripts/time/time_manager.gd" id="3_iyfbv"]
 
 [node name="SelectMap" type="ColorRect"]
 anchors_preset = 15
@@ -11,6 +13,45 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_571lt")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 500
+alignment = 1
+
+[node name="InformationBar" parent="VBoxContainer/HBoxContainer" instance=ExtResource("2_rly7m")]
+layout_mode = 2
+
+[node name="LabelMoney" type="Label" parent="VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="LabelTimer" type="Label" parent="VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 500
+alignment = 1
+
+[node name="LabelPage" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Pilih Derah"
+
+[node name="TimeManager" type="Node" parent="." groups=["time_display"]]
+script = ExtResource("3_iyfbv")
+
+[node name="Timer" type="Timer" parent="TimeManager"]
+autostart = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1

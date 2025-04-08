@@ -94,13 +94,23 @@ polygon = PackedVector2Array(-321, -296, -316, -277, -318, -240, -339, -189, -33
 points = PackedVector2Array(-354, -77, -341, -69, -336, -53, -324, -45, -314, -46, -302, -32, -297, -26, -279, -22, -264, -30, -252, -36, -240, -39, -233, -51, -237, -62, -231, -75, -224, -120, -228, -147, -241, -159, -249, -179, -246, -194, -257, -207, -252, -221, -204, -221, -187, -232, -180, -247, -175, -265, -167, -276, -152, -294, -137, -324, -133, -379)
 default_color = Color(0, 1, 1, 1)
 
+[connection signal="input_event" from="TextureRect/JakbarArea2D" to="TextureRect/JakbarArea2D" method="_on_input_event" binds= ["jakbar"]]
 [connection signal="mouse_entered" from="TextureRect/JakbarArea2D" to="TextureRect/JakbarArea2D" method="_on_mouse_entered" binds= ["jakbar"]]
 [connection signal="mouse_exited" from="TextureRect/JakbarArea2D" to="TextureRect/JakbarArea2D" method="_on_mouse_exited" binds= ["jakbar"]]
+[connection signal="ready" from="TextureRect/JakbarArea2D" to="TextureRect/JakbarArea2D" method="_on_ready" binds= ["jakbar"]]
+[connection signal="input_event" from="TextureRect/JakpusArea2D" to="TextureRect/JakpusArea2D" method="_on_input_event" binds= ["jakpus"]]
 [connection signal="mouse_entered" from="TextureRect/JakpusArea2D" to="TextureRect/JakpusArea2D" method="_on_mouse_entered" binds= ["jakpus"]]
 [connection signal="mouse_exited" from="TextureRect/JakpusArea2D" to="TextureRect/JakpusArea2D" method="_on_mouse_exited" binds= ["jakpus"]]
+[connection signal="ready" from="TextureRect/JakpusArea2D" to="TextureRect/JakpusArea2D" method="_on_ready" binds= ["jakpus"]]
+[connection signal="input_event" from="TextureRect/JakutArea2D" to="TextureRect/JakutArea2D" method="_on_input_event" binds= ["jakut"]]
 [connection signal="mouse_entered" from="TextureRect/JakutArea2D" to="TextureRect/JakutArea2D" method="_on_mouse_entered" binds= ["jakut"]]
 [connection signal="mouse_exited" from="TextureRect/JakutArea2D" to="TextureRect/JakutArea2D" method="_on_mouse_exited" binds= ["jakut"]]
+[connection signal="ready" from="TextureRect/JakutArea2D" to="TextureRect/JakutArea2D" method="_on_ready" binds= ["jakut"]]
+[connection signal="input_event" from="TextureRect/JakselArea2D" to="TextureRect/JakselArea2D" method="_on_input_event" binds= ["jaksel"]]
 [connection signal="mouse_entered" from="TextureRect/JakselArea2D" to="TextureRect/JakselArea2D" method="_on_mouse_entered" binds= ["jaksel"]]
 [connection signal="mouse_exited" from="TextureRect/JakselArea2D" to="TextureRect/JakselArea2D" method="_on_mouse_exited" binds= ["jaksel"]]
+[connection signal="ready" from="TextureRect/JakselArea2D" to="TextureRect/JakselArea2D" method="_on_ready" binds= ["jaksel"]]
+[connection signal="input_event" from="TextureRect/JaktimArea2D" to="TextureRect/JaktimArea2D" method="_on_input_event" binds= ["jaktim"]]
 [connection signal="mouse_entered" from="TextureRect/JaktimArea2D" to="TextureRect/JaktimArea2D" method="_on_mouse_entered" binds= ["jaktim"]]
 [connection signal="mouse_exited" from="TextureRect/JaktimArea2D" to="TextureRect/JaktimArea2D" method="_on_mouse_exited" binds= ["jaktim"]]
+[connection signal="ready" from="TextureRect/JaktimArea2D" to="TextureRect/JaktimArea2D" method="_on_ready" binds= ["jaktim"]]

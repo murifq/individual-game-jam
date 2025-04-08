@@ -67,7 +67,8 @@ func _on_assign_button_pressed(driver: Driver):
 	# Assign the selected driver to the currently selected Angkot
 	if Global.selected_angkot:
 		# Assign the driver to the Angkot
-		Global.selected_angkot.driver.is_assigned = false
+		if Global.selected_angkot.driver:
+			Global.selected_angkot.driver.is_assigned = false
 		Global.selected_angkot.driver = driver
 		driver.is_assigned = true
 		print("Assigned %s to %s" % [driver.name, Global.selected_angkot.name])

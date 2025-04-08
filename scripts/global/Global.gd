@@ -122,7 +122,7 @@ func reset_game():
 	jaktim.population_density = 1.4
 	jaktim.traffic_level = 1.6
 	jaktim.economic_activity = 1.1
-	jaktim.is_locked = true
+	jaktim.is_locked = false
 	jaktim.price = 18000
 
 	regions = {
