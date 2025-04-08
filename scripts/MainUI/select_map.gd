@@ -2,7 +2,7 @@ extends ColorRect
 
 @onready var region_label = $HBoxContainer/ColorRect/VBoxContainer/RegionLabel
 @onready var stats_label = $HBoxContainer/ColorRect/VBoxContainer/StatsLabel
-@onready var buy_button = $HBoxContainer/ColorRect/VBoxContainer/BuyButton
+@onready var button = $HBoxContainer/ColorRect/VBoxContainer/Button
 @onready var region_map = $HBoxContainer/VBoxContainer/CanvasLayer/AngkotMap
 
 # Track the currently hovered and clicked regions
@@ -18,8 +18,8 @@ func _ready() -> void:
 	# Connect to the signal from Global
 	Global.selected_region_changed.connect(self._on_selected_region_changed)
 
-	# Connect the buy button
-	buy_button.pressed.connect(self._on_buy_button_pressed)
+	# Connect the button
+	button.pressed.connect(self._on_button_pressed)
 
 	# Connect signals for each region in the map
 	for region_node in region_map.get_children():
@@ -33,7 +33,7 @@ func _ready() -> void:
 func _on_selected_region_changed(new_region: String) -> void:
 	_update_region_info(new_region)
 
-# Update the region info (name, stats, and button visibility)
+# Update the region info (name, stats, and button functionality)
 func _update_region_info(region_name: String) -> void:
 	var region = Global.regions.get(region_name)
 	if region:
@@ -44,23 +44,36 @@ func _update_region_info(region_name: String) -> void:
 			region.economic_activity,
 			region.price
 		]
-		buy_button.visible = region.is_locked
-	else:
-		region_label.text = "Region: None"
-		stats_label.text = ""
-		buy_button.visible = false
-
-# Handle the buy button press
-func _on_buy_button_pressed() -> void:
-	var region = Global.regions[clicked_region]
-	if region and region.is_locked:
-		if Global.money >= region.price:
-			Global.money -= region.price
-			region.is_locked = false
-			_update_region_info(Global.selected_region)
-			print("%s has been unlocked!" % region.name)
+		if region.is_locked:
+			button.text = "Beli Wilayah"
 		else:
-			print("Not enough money to unlock %s!" % region.name)
+			button.text = "Atur Wilayah"
+		button.visible = true
+	else:
+		region_label.text = "Kamu belum meilih wilayah!"
+		stats_label.text = ""
+		button.visible = false
+
+# Handle the button press
+func _on_button_pressed() -> void:
+	if clicked_region == "":
+		return  # No region is selected
+
+	var region = Global.regions.get(clicked_region)
+	if region:
+		if region.is_locked:
+			# Handle buying the region
+			if Global.money >= region.price:
+				Global.money -= region.price
+				region.is_locked = false
+				_update_region_info(clicked_region)
+				print("%s has been unlocked!" % region.name)
+			else:
+				print("Not enough money to unlock %s!" % region.name)
+		else:
+			# Handle managing the region
+			Global.selected_region = clicked_region
+			get_tree().change_scene_to_file("res://scenes/MainUI/MainUI.tscn")
 
 # Handle mouse entered event for a region
 func _on_region_hovered(region_name: String) -> void:

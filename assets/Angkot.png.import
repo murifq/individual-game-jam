@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dhr1hbu3sgl8j"
-path="res://.godot/imported/AngkotHijau.png-ad9471d8c5c16ec0fe36de5de9b38550.ctex"
+path="res://.godot/imported/Angkot.png-534f599860a120ffd59b560c50238ff2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/AngkotHijau.png"
-dest_files=["res://.godot/imported/AngkotHijau.png-ad9471d8c5c16ec0fe36de5de9b38550.ctex"]
+source_file="res://assets/Angkot.png"
+dest_files=["res://.godot/imported/Angkot.png-534f599860a120ffd59b560c50238ff2.ctex"]
 
 [params]
 

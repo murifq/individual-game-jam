@@ -5,6 +5,7 @@ var money: int = 25000
 var angkots: Array[Angkot] = []
 var drivers: Array[Driver] = []
 var regions: Dictionary = {}  # Dictionary to store all regions
+var terminals: Dictionary = {}  # Dictionary to store all terminals
 var selected_angkot: Angkot = null
 
 # Time variables
@@ -33,6 +34,7 @@ func reset_game():
 	angkots.clear()
 	drivers.clear()
 	regions.clear()
+	terminals.clear()
 
 	# Reset time
 	game_minutes = 0
@@ -64,19 +66,19 @@ func reset_game():
 
 	# Create angkots
 	var a1 = Angkot.new()
-	a1.name = "Angkot Kuning"
+	a1.name = "Angkot"
 	a1.speed = 40
 	a1.capacity = 6
 	a1.income_per_passenger = 5  # 5000 rupiah per passenger
-	a1.image_path = "res://assets/AngkotKuning.png"
+	a1.image_path = "res://assets/Angkot.png"
 	a1.driver = driver1
 
 	var a2 = Angkot.new()
-	a2.name = "Angkot Hijaus"
+	a2.name = "Angkot"
 	a2.speed = 40
 	a2.capacity = 6
 	a2.income_per_passenger = 5  # 5000 rupiah per passenger
-	a2.image_path = "res://assets/AngkotHijau.png"
+	a2.image_path = "res://assets/Angkot.png"
 	a2.driver = driver2
 
 	driver1.is_assigned = true
@@ -87,6 +89,7 @@ func reset_game():
 	# Create regions
 	var jakbar = Region.new()
 	jakbar.name = "Jakarta Barat"
+	jakbar.short_name = "jakbar"
 	jakbar.population_density = 1.2
 	jakbar.traffic_level = 1.5
 	jakbar.economic_activity = 1.1
@@ -95,6 +98,7 @@ func reset_game():
 
 	var jakpus = Region.new()
 	jakpus.name = "Jakarta Pusat"
+	jakpus.short_name = "jakpus"
 	jakpus.population_density = 1.5
 	jakpus.traffic_level = 1.2
 	jakpus.economic_activity = 1.3
@@ -103,6 +107,7 @@ func reset_game():
 
 	var jakut = Region.new()
 	jakut.name = "Jakarta Utara"
+	jakut.short_name = "jakut"
 	jakut.population_density = 1.1
 	jakut.traffic_level = 1.3
 	jakut.economic_activity = 1.0
@@ -111,6 +116,7 @@ func reset_game():
 
 	var jaksel = Region.new()
 	jaksel.name = "Jakarta Selatan"
+	jaksel.short_name = "jaksel"
 	jaksel.population_density = 1.3
 	jaksel.traffic_level = 1.4
 	jaksel.economic_activity = 1.2
@@ -119,6 +125,7 @@ func reset_game():
 
 	var jaktim = Region.new()
 	jaktim.name = "Jakarta Timur"
+	jaktim.short_name = "jaktim"
 	jaktim.population_density = 1.4
 	jaktim.traffic_level = 1.6
 	jaktim.economic_activity = 1.1
@@ -133,9 +140,23 @@ func reset_game():
 		"jaktim": jaktim
 	}
 
+	# Assign angkots to Jakarta Barat
+	a1.current_region = regions["jakbar"]
+	a2.current_region = regions["jakbar"]
+	a1.is_operating = true
+	a2.is_operating = true
+
+	# Create terminals
+	var terminal_jakbar = Terminal.new()
+	terminal_jakbar.name = "Terminal Jakarta Barat"
+	terminal_jakbar.region = regions["jakbar"]
+
+	terminals = {
+		"jakbar": terminal_jakbar
+	}
+
 	is_initialized = true
-	a1.current_region = regions["jakbar"]  # Assign Jakarta Barat to Angkot Kuning
-	a2.current_region = regions["jakpus"]  # Assign Jakarta Pusat to Angkot Hijau
+
 # Format time as HH:MM
 func get_time_string() -> String:
 	var am_pm = "AM" if game_hours < 12 else "PM"

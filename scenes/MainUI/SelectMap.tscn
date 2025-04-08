@@ -103,7 +103,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Stats:"
 
-[node name="BuyButton" type="Button" parent="HBoxContainer/ColorRect/VBoxContainer"]
+[node name="Button" type="Button" parent="HBoxContainer/ColorRect/VBoxContainer"]
 visible = false
 layout_mode = 2
 text = "Buy Region"

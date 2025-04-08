@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c2hut3br04uqm"]
 
 [ext_resource type="Texture2D" uid="uid://qshjgrdlppys" path="res://icon.svg" id="1_84ld5"]
-[ext_resource type="Texture2D" uid="uid://dhr1hbu3sgl8j" path="res://assets/AngkotHijau.png" id="2_6ss4y"]
+[ext_resource type="Texture2D" uid="uid://dhr1hbu3sgl8j" path="res://assets/Angkot.png" id="2_6ss4y"]
 
 [node name="CustomButton" type="Node"]
 

@@ -3,6 +3,7 @@ class_name Region
 
 # Region properties
 var name: String
+var short_name : String
 var population_density: float = 1.0  # Multiplier for passenger count
 var traffic_level: float = 1.0       # Multiplier for travel time
 var economic_activity: float = 1.0   # Multiplier for income per passenger

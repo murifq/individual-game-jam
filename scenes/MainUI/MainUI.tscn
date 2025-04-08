@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://d1dxhlx0pw8bv"]
+[gd_scene load_steps=5 format=3 uid="uid://d1dxhlx0pw8bv"]
 
 [ext_resource type="Script" path="res://scripts/MainUI/main_ui.gd" id="1_6gwic"]
-[ext_resource type="Texture2D" uid="uid://dhr1hbu3sgl8j" path="res://assets/AngkotHijau.png" id="2_ciema"]
+[ext_resource type="Texture2D" uid="uid://dhr1hbu3sgl8j" path="res://assets/Angkot.png" id="2_ciema"]
 [ext_resource type="PackedScene" uid="uid://c6243b85k6e7" path="res://scenes/components/InformationBar.tscn" id="2_mlvbv"]
-[ext_resource type="PackedScene" uid="uid://opbbvmkd64fl" path="res://scenes/MainUI/TerminalAnimation.tscn" id="2_terminal_animation"]
 [ext_resource type="Script" path="res://scripts/time/time_manager.gd" id="4_bkq7u"]
 
 [node name="MainUI" type="ColorRect" groups=["time_display"]]
@@ -22,6 +21,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -590.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -43,19 +43,20 @@ layout_mode = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 500
+theme_override_constants/separation = 200
 alignment = 1
+
+[node name="BackButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Kembali"
 
 [node name="LabelPage" type="Label" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "Armada Kamu"
+text = "Armada Kamu di "
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+[node name="LabelCapacity" type="Label" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-theme_override_constants/separation = 500
-alignment = 1
-
-[node name="TerminalAnimation" parent="VBoxContainer/HBoxContainer3" instance=ExtResource("2_terminal_animation")]
+text = "Armada Kamu di "
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -91,17 +92,34 @@ text = "Angkot Name
 Lv.1 | Speed: 40 | Cap: 6 | Income: Rp 1000 | Condition: 100%"
 flat = true
 
-[node name="RepairButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem"]
+layout_mode = 2
+
+[node name="AssignDriverButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem/VBoxContainer"]
+layout_mode = 2
+text = "Assign Driver"
+
+[node name="OperateButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem/VBoxContainer"]
+layout_mode = 2
+text = "Operate"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem"]
+layout_mode = 2
+
+[node name="RepairButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem/VBoxContainer2"]
 layout_mode = 2
 text = "Repair"
 
-[node name="SellButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem"]
+[node name="SellButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem/VBoxContainer2"]
 layout_mode = 2
 text = "Sell"
 
-[node name="AssignDriverButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem"]
+[node name="AngkotItem2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/AngkotList"]
 layout_mode = 2
-text = "Assign Driver"
+
+[node name="AddAngkotButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem2"]
+layout_mode = 2
+text = "Tambah Angkot"
 
 [node name="TimeManager" type="Node" parent="." groups=["time_display"]]
 script = ExtResource("4_bkq7u")
