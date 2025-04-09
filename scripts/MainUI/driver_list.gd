@@ -3,19 +3,26 @@ extends ColorRect
 @onready var driver_list_container = $MarginContainer/ScrollContainer/DriverListContainer
 @onready var driver_item_template = $MarginContainer/ScrollContainer/DriverListContainer/DriverItem
 
+@onready var back_button = $VBoxContainer/HBoxContainer2/BackButton
+@onready var add_drivers_button = $VBoxContainer/HBoxContainer3/AddDrivers
+
 func _ready():
 	# Hide the template node
 	driver_item_template.visible = false
 	
 	# Populate the driver list
 	populate_driver_list()
+	
+	# Connect buttons
+	back_button.pressed.connect(self._on_back_button_pressed)
+	add_drivers_button.pressed.connect(self._on_add_drivers_button_pressed)
 
 func populate_driver_list():
 	# Clear existing items except the template
 	for child in driver_list_container.get_children():
 		if child != driver_item_template:
 			child.queue_free()
-	
+	driver_item_template.visible = false
 	# Add a "Detach Driver" option if the selected Angkot has a driver
 	if Global.selected_angkot and Global.selected_angkot.driver:
 		var detach_item = driver_item_template.duplicate()
@@ -40,6 +47,7 @@ func populate_driver_list():
 		var DriverName = driver_item.get_node("DriverName")
 		var DriverStats = driver_item.get_node("DriverStats")
 		var AssignButton = driver_item.get_node("AssignButton")
+		var FireButton = driver_item.get_node("FireButton")
 		
 		# Set driver details
 		DriverName.text = driver.name
@@ -51,6 +59,9 @@ func populate_driver_list():
 		
 		# Connect the Assign button
 		AssignButton.connect("pressed", self._on_assign_button_pressed.bind(driver))
+		
+		# Connect the Fire button
+		FireButton.connect("pressed", self._on_fire_button_pressed.bind(driver))
 		
 		# Add the driver item to the list
 		driver_list_container.add_child(driver_item)
@@ -87,3 +98,33 @@ func _on_detach_driver_pressed():
 		
 		# Return to the MainUI scene
 		get_tree().change_scene_to_file("res://scenes/MainUI/MainUI.tscn")
+		
+func _on_fire_button_pressed(driver: Driver):
+# Check if the driver is assigned to an Angkot
+	for angkot in Global.angkots:
+		if angkot.driver == driver:
+	# Detach the driver from the Angkot
+			angkot.driver = null
+			print("Driver %s has been detached from Angkot %s" % [driver.name, angkot.name])
+			break
+
+	# Remove the driver from Global.drivers
+	if driver in Global.drivers:
+		Global.drivers.erase(driver)
+	print("Driver %s has been fired!" % driver.name)
+
+	# Update the driver list UI
+	populate_driver_list()
+
+func _on_add_drivers_button_pressed():
+	# Generate a new random driver
+	var new_driver = Driver.generate_random_driver()
+	Global.drivers.append(new_driver)  # Add the new driver to the global drivers list
+	print("New driver added: %s" % new_driver.name)
+	
+	# Update the driver list UI
+	populate_driver_list()
+
+func _on_back_button_pressed():
+	# Change back to the MainUI scene
+	get_tree().change_scene_to_file("res://scenes/MainUI/MainUI.tscn")

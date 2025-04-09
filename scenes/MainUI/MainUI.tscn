@@ -21,7 +21,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = -590.0
+offset_bottom = -555.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -56,7 +56,20 @@ text = "Armada Kamu di "
 
 [node name="LabelCapacity" type="Label" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "Armada Kamu di "
+text = "Kapasitas"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 200
+alignment = 1
+
+[node name="UpgradeTerminalButton" type="Button" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Upgrade Terminal"
+
+[node name="AddAngkotButton" type="Button" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Tambah Angkot"
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -125,13 +138,6 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 text = "Upgrade"
-
-[node name="AngkotItem2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/AngkotList"]
-layout_mode = 2
-
-[node name="AddAngkotButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem2"]
-layout_mode = 2
-text = "Tambah Angkot"
 
 [node name="TimeManager" type="Node" parent="." groups=["time_display"]]
 script = ExtResource("4_bkq7u")

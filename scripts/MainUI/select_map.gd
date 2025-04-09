@@ -37,7 +37,7 @@ func _on_selected_region_changed(new_region: String) -> void:
 func _update_region_info(region_name: String) -> void:
 	var region = Global.regions.get(region_name)
 	if region:
-		region_label.text = "Region: " + region.name
+		region_label.text = "Region: " + region.short_name
 		stats_label.text = "Population Density: %.2f\nTraffic Level: %.2f\nEconomic Activity: %.2f\nPrice: %d" % [
 			region.population_density,
 			region.traffic_level,
@@ -67,9 +67,9 @@ func _on_button_pressed() -> void:
 				Global.money -= region.price
 				region.is_locked = false
 				_update_region_info(clicked_region)
-				print("%s has been unlocked!" % region.name)
+				print("%s has been unlocked!" % region.short_name)
 			else:
-				print("Not enough money to unlock %s!" % region.name)
+				print("Not enough money to unlock %s!" % region.short_name)
 		else:
 			# Handle managing the region
 			Global.selected_region = clicked_region

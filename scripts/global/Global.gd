@@ -50,7 +50,7 @@ func create_new_terminal(region: Region) -> Terminal:
 	return new_terminal
 
 func reset_game():
-	money = 25000
+	money = 250000000
 	angkots.clear()
 	drivers.clear()
 	regions.clear()
@@ -145,7 +145,7 @@ func reset_game():
 	a2.driver = driver2
 
 	angkots.append(a1)
-	angkots.append(a2)
+	#angkots.append(a2)
 
 	# Assign angkots to Jakarta Barat
 	a1.current_region = regions["jakbar"]

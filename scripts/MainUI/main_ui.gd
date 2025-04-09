@@ -2,9 +2,13 @@ extends Control
 
 @onready var angkot_list = $MarginContainer/ScrollContainer/AngkotList
 @onready var angkot_item_template = $MarginContainer/ScrollContainer/AngkotList/AngkotItem
+
 @onready var label_page = $VBoxContainer/HBoxContainer2/LabelPage
 @onready var back_button = $VBoxContainer/HBoxContainer2/BackButton
 @onready var label_capacity = $VBoxContainer/HBoxContainer2/LabelCapacity
+
+@onready var add_angkot_button = $VBoxContainer/HBoxContainer3/AddAngkotButton
+@onready var upgrade_terminal_button = $VBoxContainer/HBoxContainer3/UpgradeTerminalButton
 
 @onready var label_info = $ConfirmationBox/VBoxContainer/CenterContainer/InfoLabel
 @onready var confirm_button = $ConfirmationBox/VBoxContainer/CenterContainer2/HBoxContainer/ConfirmButton
@@ -28,6 +32,9 @@ func _ready():
 
 	# Connect the ConfirmButton
 	confirm_button.pressed.connect(self._on_confirm_upgrade_button_pressed)
+
+	# Connect the AddAngkotButton
+	add_angkot_button.pressed.connect(self._on_add_angkot_button_pressed)
 
 	randomize()
 	update_ui()
@@ -96,6 +103,28 @@ func update_ui():
 
 		angkot_list.add_child(angkot_item)
 
+func _on_add_angkot_button_pressed():
+	# Get the terminal for the current region
+	var terminal = Global.terminals.get(Global.selected_region)
+	if not terminal:
+		print("No terminal found for the selected region!")
+		return
+
+	# Check if the terminal has enough capacity
+	var angkots_in_region = Global.angkots.filter(func(angkot): return angkot.current_region.short_name == Global.selected_region)
+	if angkots_in_region.size() >= terminal.capacity:
+		print("Terminal capacity reached! Upgrade the terminal to add more angkots.")
+		return
+
+	# Create a new angkot and assign it to the current region
+	var new_angkot = Global.create_new_angkot()
+	new_angkot.current_region = Global.regions[Global.selected_region]
+	Global.angkots.append(new_angkot)
+	print("New angkot added to %s!" % Global.selected_region)
+
+	# Update the UI
+	update_ui()
+
 func _on_angkot_button_pressed(angkot: Angkot):
 	# Store the selected Angkot in Global
 	Global.selected_angkot = angkot
@@ -142,11 +171,14 @@ func _on_assign_driver_button_pressed(angkot: Angkot):
 func _on_upgrade_button_pressed(angkot: Angkot):
 	# Get the upgraded angkot stats using upgrade_info
 	confirmation_box.visible = true
+	if angkot.upgrade_level == 5:
+		label_info.text = "Level angkot sudah maksimal"
+		return
 	Global.selected_angkot = angkot
 	var upgraded_angkot = angkot.upgrade_info()
 	var upgrade_price = 0
-	if upgraded_angkot.upgrade_level - 1 < upgraded_angkot.UPGRADE_DATA.size():
-		upgrade_price = upgraded_angkot.UPGRADE_DATA[upgraded_angkot.upgrade_level - 1]["price"]
+	if angkot.upgrade_level < angkot.UPGRADE_DATA.size():
+		upgrade_price = angkot.UPGRADE_DATA[angkot.upgrade_level]["price"]
 	label_info.text = "Upgrade Info:\nLv.%d | Speed: %d | Cap: %d | Income: Rp %d\nUpgrade Price: Rp %d" % [
 		upgraded_angkot.upgrade_level,
 		upgraded_angkot.speed,
@@ -161,8 +193,6 @@ func _on_confirm_upgrade_button_pressed():
 	if Global.selected_angkot:
 		var upgrade_result = Global.selected_angkot.upgrade()
 		print(upgrade_result)
-		print(Global.money)
-		print("Berhasil terupgrade")
 	confirmation_box.visible = false
 	update_ui()  # Refresh the UI to reflect the upgraded stats
 
