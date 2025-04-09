@@ -1,8 +1,8 @@
 extends ColorRect
 
-@onready var region_label = $HBoxContainer/ColorRect/VBoxContainer/RegionLabel
-@onready var stats_label = $HBoxContainer/ColorRect/VBoxContainer/StatsLabel
-@onready var button = $HBoxContainer/ColorRect/VBoxContainer/Button
+@onready var region_label = $HBoxContainer/ColorRect/CenterContainer/VBoxContainer/RegionLabel
+@onready var stats_label = $HBoxContainer/ColorRect/CenterContainer/VBoxContainer/StatsLabel
+@onready var button = $HBoxContainer/ColorRect/CenterContainer/VBoxContainer/Button
 @onready var region_map = $HBoxContainer/VBoxContainer/CanvasLayer/AngkotMap
 
 # Track the currently hovered and clicked regions

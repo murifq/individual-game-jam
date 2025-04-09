@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://d1dxhlx0pw8bv"]
+[gd_scene load_steps=6 format=3 uid="uid://d1dxhlx0pw8bv"]
 
 [ext_resource type="Script" path="res://scripts/MainUI/main_ui.gd" id="1_6gwic"]
 [ext_resource type="Texture2D" uid="uid://dhr1hbu3sgl8j" path="res://assets/Angkot.png" id="2_ciema"]
 [ext_resource type="PackedScene" uid="uid://c6243b85k6e7" path="res://scenes/components/InformationBar.tscn" id="2_mlvbv"]
+[ext_resource type="Texture2D" uid="uid://i1gevggbqpy3" path="res://assets/terminal/TerminalLevel2.png" id="3_vg2i0"]
 [ext_resource type="Script" path="res://scripts/time/time_manager.gd" id="4_bkq7u"]
 
 [node name="MainUI" type="ColorRect" groups=["time_display"]]
@@ -21,7 +22,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = -555.0
+offset_bottom = -201.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -71,6 +72,21 @@ text = "Upgrade Terminal"
 layout_mode = 2
 text = "Tambah Angkot"
 
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 200
+alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+
+[node name="TerminalImage" type="TextureRect" parent="VBoxContainer/HBoxContainer4/CenterContainer"]
+custom_minimum_size = Vector2(350, 350)
+layout_mode = 2
+texture = ExtResource("3_vg2i0")
+expand_mode = 3
+stretch_mode = 4
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -111,7 +127,8 @@ layout_mode = 2
 [node name="AssignDriverButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem/VBoxContainer"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-text = "Assign Driver"
+text = "Pilih
+Supir"
 
 [node name="OperateButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem/VBoxContainer"]
 custom_minimum_size = Vector2(0, 64)
@@ -137,7 +154,7 @@ layout_mode = 2
 [node name="UpgradeButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem/VBoxContainer3"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Upgrade"
+text = "Tingkatkan"
 
 [node name="TimeManager" type="Node" parent="." groups=["time_display"]]
 script = ExtResource("4_bkq7u")
@@ -198,7 +215,11 @@ layout_mode = 2
 theme_override_constants/h_separation = 100
 text = "Cancel"
 
-[node name="ConfirmButton" type="Button" parent="ConfirmationBox/VBoxContainer/CenterContainer2/HBoxContainer"]
+[node name="ConfirmAngkotButton" type="Button" parent="ConfirmationBox/VBoxContainer/CenterContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Ok"
+
+[node name="ConfirmTerminalButton" type="Button" parent="ConfirmationBox/VBoxContainer/CenterContainer2/HBoxContainer"]
 layout_mode = 2
 text = "Ok"
 

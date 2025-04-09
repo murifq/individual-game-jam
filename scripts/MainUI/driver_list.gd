@@ -5,6 +5,7 @@ extends ColorRect
 
 @onready var back_button = $VBoxContainer/HBoxContainer2/BackButton
 @onready var add_drivers_button = $VBoxContainer/HBoxContainer3/AddDrivers
+@onready var label_number_drivers = $VBoxContainer/HBoxContainer2/LabelNumberDrivers  # Label to display the number of drivers
 
 func _ready():
 	# Hide the template node
@@ -23,24 +24,12 @@ func populate_driver_list():
 		if child != driver_item_template:
 			child.queue_free()
 	driver_item_template.visible = false
-	# Add a "Detach Driver" option if the selected Angkot has a driver
-	if Global.selected_angkot and Global.selected_angkot.driver:
-		var detach_item = driver_item_template.duplicate()
-		detach_item.visible = true
-		
-		var DriverName = detach_item.get_node("DriverName")
-		var DriverStats = detach_item.get_node("DriverStats")
-		var AssignButton = detach_item.get_node("AssignButton")
-		
-		DriverName.text = "Detach Driver"
-		DriverStats.text = "Remove the current driver from this Angkot."
-		AssignButton.text = "Detach"
-		AssignButton.connect("pressed", self._on_detach_driver_pressed)
-		
-		driver_list_container.add_child(detach_item)
 	
-	# Add each available driver to the list
-	for driver in get_all_available_drivers():
+	# Update the label to show the total number of drivers
+	label_number_drivers.text = "Jumlah supir: %d" % Global.drivers.size()
+
+	# Add each driver to the list
+	for driver in Global.drivers:
 		var driver_item = driver_item_template.duplicate()
 		driver_item.visible = true
 		
@@ -57,8 +46,13 @@ func populate_driver_list():
 			driver.fee
 		]
 		
-		# Connect the Assign button
-		AssignButton.connect("pressed", self._on_assign_button_pressed.bind(driver))
+		# Set AssignButton text and behavior
+		if driver.is_assigned and driver == Global.selected_angkot.driver:
+			AssignButton.text = "Lepaskan"
+			AssignButton.connect("pressed", self._on_detach_driver_pressed.bind(driver))
+		else:
+			AssignButton.text = "Tetapkan"
+			AssignButton.connect("pressed", self._on_assign_button_pressed.bind(driver))
 		
 		# Connect the Fire button
 		FireButton.connect("pressed", self._on_fire_button_pressed.bind(driver))
@@ -89,21 +83,23 @@ func _on_assign_button_pressed(driver: Driver):
 	else:
 		print("No Angkot selected!")
 
-func _on_detach_driver_pressed():
+func _on_detach_driver_pressed(driver: Driver):
 	# Detach the driver from the currently selected Angkot
-	if Global.selected_angkot and Global.selected_angkot.driver:
-		Global.selected_angkot.driver.is_assigned = false
-		Global.selected_angkot.driver = null
-		print("Driver detached from %s" % Global.selected_angkot.name)
-		
-		# Return to the MainUI scene
-		get_tree().change_scene_to_file("res://scenes/MainUI/MainUI.tscn")
-		
-func _on_fire_button_pressed(driver: Driver):
-# Check if the driver is assigned to an Angkot
 	for angkot in Global.angkots:
 		if angkot.driver == driver:
-	# Detach the driver from the Angkot
+			angkot.driver = null
+			driver.is_assigned = false
+			print("Driver %s has been detached from Angkot %s" % [driver.name, angkot.name])
+			break
+	
+	# Update the driver list UI
+	populate_driver_list()
+
+func _on_fire_button_pressed(driver: Driver):
+	# Check if the driver is assigned to an Angkot
+	for angkot in Global.angkots:
+		if angkot.driver == driver:
+			# Detach the driver from the Angkot
 			angkot.driver = null
 			print("Driver %s has been detached from Angkot %s" % [driver.name, angkot.name])
 			break

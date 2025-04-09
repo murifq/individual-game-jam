@@ -63,17 +63,19 @@ func reset_game():
 
 	# Create drivers
 	var driver1 = Driver.new()
-	driver1.name = "Pak Budi"
+	driver1.name = "Budi"
 	driver1.fee = 5  # 5000 rupiah per operation
 	driver1.skill = 1.0  # Neutral skill
 	driver1.maintenance_effect = 1.0  # Neutral maintenance effect
+	driver1.is_assigned = true
 
 	var driver2 = Driver.new()
-	driver2.name = "Pak Joko"
+	driver2.name = "Joko"
 	driver2.fee = 3  # 3000 rupiah per operation
 	driver2.skill = 0.9  # Slightly lower skill
 	driver2.maintenance_effect = 1.2  # Higher maintenance effect (worse for condition)
-
+	driver2.is_assigned = true
+	
 	var driver3 = Driver.new()
 	driver3.name = "Pak Agus"
 	driver3.fee = 4  # 4000 rupiah per operation
@@ -145,7 +147,7 @@ func reset_game():
 	a2.driver = driver2
 
 	angkots.append(a1)
-	#angkots.append(a2)
+	angkots.append(a2)
 
 	# Assign angkots to Jakarta Barat
 	a1.current_region = regions["jakbar"]

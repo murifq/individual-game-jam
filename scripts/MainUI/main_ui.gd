@@ -11,9 +11,14 @@ extends Control
 @onready var upgrade_terminal_button = $VBoxContainer/HBoxContainer3/UpgradeTerminalButton
 
 @onready var label_info = $ConfirmationBox/VBoxContainer/CenterContainer/InfoLabel
-@onready var confirm_button = $ConfirmationBox/VBoxContainer/CenterContainer2/HBoxContainer/ConfirmButton
+
+@onready var confirm_terminal_button = $ConfirmationBox/VBoxContainer/CenterContainer2/HBoxContainer/ConfirmTerminalButton
+@onready var confirm_ankot_button = $ConfirmationBox/VBoxContainer/CenterContainer2/HBoxContainer/ConfirmAngkotButton
+
 @onready var cancel_button = $ConfirmationBox/VBoxContainer/CenterContainer2/HBoxContainer/CancelButton
 @onready var confirmation_box = $ConfirmationBox
+
+@onready var terminal_image = $VBoxContainer/HBoxContainer4/CenterContainer/TerminalImage
 
 func _ready():
 	if not Global.is_initialized:
@@ -21,7 +26,7 @@ func _ready():
 
 	# Set up the label for the selected region
 	label_page.text = "Armada kamu di wilayah " + Global.selected_region
-	label_capacity.text = "Kapasitas angkot: " + str(Global.terminals[Global.selected_region].capacity)
+	
 	angkot_item_template.visible = false
 
 	# Connect the BackButton
@@ -31,8 +36,8 @@ func _ready():
 	cancel_button.pressed.connect(self._on_cancel_upgrade_button_pressed)
 
 	# Connect the ConfirmButton
-	confirm_button.pressed.connect(self._on_confirm_upgrade_button_pressed)
-
+	#confirm_button.pressed.connect(self._on_confirm_upgrade_button_pressed)
+	upgrade_terminal_button.connect("pressed", self._on_upgrade_terminal_button_pressed.bind(Global.terminals[Global.selected_region]))
 	# Connect the AddAngkotButton
 	add_angkot_button.pressed.connect(self._on_add_angkot_button_pressed)
 
@@ -45,7 +50,16 @@ func update_ui():
 		if child != angkot_item_template:  # Skip the template
 			child.queue_free()
 
-	# Create buttons for each angkot
+	# Get the terminal for the selected region
+	var terminal = Global.terminals[Global.selected_region]
+	terminal_image.texture = load(terminal.image_path)
+
+	# Count the number of angkots in the selected region
+	var angkots_in_region = Global.angkots.filter(func(angkot): return angkot.current_region.short_name == Global.selected_region).size()
+
+	# Update the label_capacity to show the number of angkots and the terminal's capacity
+	label_capacity.text = "Kapasitas angkot: %d/%d" % [angkots_in_region, terminal.capacity]
+	
 	for angkot in Global.angkots:
 		if angkot.current_region.short_name != Global.selected_region:
 			continue
@@ -93,13 +107,13 @@ func update_ui():
 		# Connect buttons
 		AngkotLabel.pressed.connect(self._on_angkot_button_pressed.bind(angkot))
 		AngkotImage.pressed.connect(self._on_angkot_button_pressed.bind(angkot))
-		RepairButton.text = "Repair (Rp 500)"
+		RepairButton.text = "Perbaiki (Rp 500)"
 		RepairButton.connect("pressed", self._on_repair_button_pressed.bind(angkot))
-		SellButton.text = "Sell (Rp %d)" % angkot.calculate_sell_price()
+		SellButton.text = "Jual (Rp %d)" % angkot.calculate_sell_price()
 		SellButton.connect("pressed", self._on_sell_button_pressed.bind(angkot))
 		OperateButton.connect("pressed", self._on_operate_button_pressed.bind(angkot))
 		AssignDriverButton.connect("pressed", self._on_assign_driver_button_pressed.bind(angkot))
-		UpgradeButton.connect("pressed", self._on_upgrade_button_pressed.bind(angkot))  # Connect UpgradeButton
+		UpgradeButton.connect("pressed", self._on_upgrade_angkot_button_pressed.bind(angkot))  # Connect UpgradeButton
 
 		angkot_list.add_child(angkot_item)
 
@@ -168,9 +182,14 @@ func _on_assign_driver_button_pressed(angkot: Angkot):
 	# Change to the DriverList scene
 	get_tree().change_scene_to_file("res://scenes/MainUI/DriverList.tscn")
 
-func _on_upgrade_button_pressed(angkot: Angkot):
+func _on_upgrade_angkot_button_pressed(angkot: Angkot):
 	# Get the upgraded angkot stats using upgrade_info
 	confirmation_box.visible = true
+	confirm_ankot_button.visible = true
+	confirm_terminal_button.visible = false
+	
+	confirm_ankot_button.pressed.connect(self._on_confirm_upgrade_button_pressed.bind("Angkot"))
+	
 	if angkot.upgrade_level == 5:
 		label_info.text = "Level angkot sudah maksimal"
 		return
@@ -187,14 +206,49 @@ func _on_upgrade_button_pressed(angkot: Angkot):
 		upgrade_price
 	]
 	print("Upgrade Info: ", label_info.text)
+	
+func _on_upgrade_terminal_button_pressed(terminal: Terminal):
+	# Show the confirmation box and set visibility for terminal upgrade
+	confirmation_box.visible = true
+	confirm_ankot_button.visible = false
+	confirm_terminal_button.visible = true
 
-func _on_confirm_upgrade_button_pressed():
-	# Perform the real upgrade on the selected angkot
-	if Global.selected_angkot:
-		var upgrade_result = Global.selected_angkot.upgrade()
-		print(upgrade_result)
+	# Connect the confirm button for terminal upgrade
+	confirm_terminal_button.pressed.connect(self._on_confirm_upgrade_button_pressed.bind("Terminal"))
+
+	# Check if the terminal is already at the maximum level
+	if terminal.level >= terminal.LEVEL_DATA.size():
+		label_info.text = "Level terminal sudah maksimal"
+		return
+
+	# Get the upgrade info for the terminal
+	var upgraded_terminal = terminal.upgrade_info()
+	label_info.text = "Upgrade Info:\nLv.%d -> Lv.%d\nCapacity: %d -> %d\nUpgrade Price: Rp %d" % [
+	terminal.level,
+	upgraded_terminal.level,
+	terminal.capacity,
+	upgraded_terminal.capacity,
+	upgraded_terminal.upgrade_price
+	]
+	print("Upgrade Info: ", label_info.text)
+
+func _on_confirm_upgrade_button_pressed(type: String):
+# Perform the real upgrade based on the type
+	if type == "Angkot":
+		if Global.selected_angkot:
+			var upgrade_result = Global.selected_angkot.upgrade()
+			print(upgrade_result)
+	elif type == "Terminal":
+		var terminal = Global.terminals.get(Global.selected_region)
+		if terminal:
+			if terminal.upgrade():
+				print("Terminal upgraded successfully!")
+			else:
+				print("Failed to upgrade terminal!")
+		# Hide the confirmation box and update the UI
 	confirmation_box.visible = false
-	update_ui()  # Refresh the UI to reflect the upgraded stats
+	update_ui()
+	
 
 func _on_cancel_upgrade_button_pressed():
 	# Hide the confirmation box
