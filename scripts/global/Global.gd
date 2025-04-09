@@ -29,6 +29,26 @@ var selected_region: String:
 # Initialization flag
 var is_initialized: bool = false
 
+# Function to create a new Angkot with default values
+func create_new_angkot(name: String = "Angkot", speed: int = 40, capacity: int = 6, income_per_passenger: int = 5, image_path: String = "res://assets/Angkot.png", driver: Driver = null) -> Angkot:
+	var new_angkot = Angkot.new()
+	new_angkot.name = name
+	new_angkot.speed = speed
+	new_angkot.capacity = capacity
+	new_angkot.income_per_passenger = income_per_passenger
+	new_angkot.image_path = image_path
+	new_angkot.driver = driver
+	if driver:
+		driver.is_assigned = true
+	return new_angkot
+
+# Function to create a new Terminal with default values
+func create_new_terminal(region: Region) -> Terminal:
+	var new_terminal = Terminal.new()
+	new_terminal.name = "Terminal " + region.name
+	new_terminal.region = region
+	return new_terminal
+
 func reset_game():
 	money = 25000
 	angkots.clear()
@@ -63,28 +83,6 @@ func reset_game():
 	drivers.append(driver1)
 	drivers.append(driver2)
 	drivers.append(driver3)
-
-	# Create angkots
-	var a1 = Angkot.new()
-	a1.name = "Angkot"
-	a1.speed = 40
-	a1.capacity = 6
-	a1.income_per_passenger = 5  # 5000 rupiah per passenger
-	a1.image_path = "res://assets/Angkot.png"
-	a1.driver = driver1
-
-	var a2 = Angkot.new()
-	a2.name = "Angkot"
-	a2.speed = 40
-	a2.capacity = 6
-	a2.income_per_passenger = 5  # 5000 rupiah per passenger
-	a2.image_path = "res://assets/Angkot.png"
-	a2.driver = driver2
-
-	driver1.is_assigned = true
-	driver2.is_assigned = true
-	angkots.append(a1)
-	angkots.append(a2)
 
 	# Create regions
 	var jakbar = Region.new()
@@ -140,19 +138,34 @@ func reset_game():
 		"jaktim": jaktim
 	}
 
+	# Create angkots using the new function
+	var a1 = create_new_angkot()
+	a1.driver = driver1
+	var a2 = create_new_angkot()
+	a2.driver = driver2
+
+	angkots.append(a1)
+	angkots.append(a2)
+
 	# Assign angkots to Jakarta Barat
 	a1.current_region = regions["jakbar"]
 	a2.current_region = regions["jakbar"]
 	a1.is_operating = true
 	a2.is_operating = true
 
-	# Create terminals
-	var terminal_jakbar = Terminal.new()
-	terminal_jakbar.name = "Terminal Jakarta Barat"
-	terminal_jakbar.region = regions["jakbar"]
+	# Create terminals using the new function
+	var terminal_jakbar = create_new_terminal(regions["jakbar"])
+	var terminal_jakpus = create_new_terminal(regions["jakpus"])
+	var terminal_jakut = create_new_terminal(regions["jakut"])
+	var terminal_jaksel = create_new_terminal(regions["jaksel"])
+	var terminal_jaktim = create_new_terminal(regions["jaktim"])
 
 	terminals = {
-		"jakbar": terminal_jakbar
+		"jakbar": terminal_jakbar,
+		"jakpus": terminal_jakpus,
+		"jakut": terminal_jakut,
+		"jaksel": terminal_jaksel,
+		"jaktim": terminal_jaktim
 	}
 
 	is_initialized = true

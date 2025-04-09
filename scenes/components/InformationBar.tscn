@@ -23,7 +23,7 @@ text = "halo"
 script = ExtResource("2_jcqvt")
 
 [node name="Timer" type="Timer" parent="TimeManager"]
-wait_time = 0.001
+wait_time = 6.126
 autostart = true
 
 [connection signal="timeout" from="TimeManager/Timer" to="TimeManager" method="_on_timer_timeout"]

@@ -96,10 +96,12 @@ flat = true
 layout_mode = 2
 
 [node name="AssignDriverButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem/VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "Assign Driver"
 
 [node name="OperateButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem/VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "Operate"
 
@@ -107,12 +109,22 @@ text = "Operate"
 layout_mode = 2
 
 [node name="RepairButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "Repair"
 
 [node name="SellButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "Sell"
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem"]
+layout_mode = 2
+
+[node name="UpgradeButton" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem/VBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Upgrade"
 
 [node name="AngkotItem2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/AngkotList"]
 layout_mode = 2
@@ -126,5 +138,62 @@ script = ExtResource("4_bkq7u")
 
 [node name="Timer" type="Timer" parent="TimeManager"]
 autostart = true
+
+[node name="ConfirmationBox" type="ColorRect" parent="."]
+visible = false
+custom_minimum_size = Vector2(700, 300)
+layout_mode = 0
+offset_left = 226.0
+offset_top = 174.0
+offset_right = 926.0
+offset_bottom = 474.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ConfirmationBox"]
+custom_minimum_size = Vector2(700, 300)
+layout_mode = 2
+offset_right = 700.0
+offset_bottom = 301.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="ConfirmationBox/VBoxContainer"]
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
+color = Color(1, 1, 0, 1)
+
+[node name="AnnounceLabel" type="Label" parent="ConfirmationBox/VBoxContainer/ColorRect"]
+layout_mode = 2
+offset_left = 1.0
+offset_right = 701.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "This is announcement label"
+horizontal_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="ConfirmationBox/VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="InfoLabel" type="Label" parent="ConfirmationBox/VBoxContainer/CenterContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "This is information label"
+
+[node name="CenterContainer2" type="CenterContainer" parent="ConfirmationBox/VBoxContainer"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ConfirmationBox/VBoxContainer/CenterContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="CancelButton" type="Button" parent="ConfirmationBox/VBoxContainer/CenterContainer2/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 100
+text = "Cancel"
+
+[node name="ConfirmButton" type="Button" parent="ConfirmationBox/VBoxContainer/CenterContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Ok"
 
 [connection signal="timeout" from="TimeManager/Timer" to="." method="_on_timer_timeout"]

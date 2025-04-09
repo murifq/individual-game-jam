@@ -15,6 +15,7 @@ var current_region: Region = null  # Region where the Angkot is operating
 var is_operating: bool = false  # Whether the angkot is currently operating
 var fuel_cost_per_operation: int = 15  # Operational cost (e.g., fuel cost)
 var base_price = 20100
+
 # Upgrade pricing and income increase for each level
 const UPGRADE_DATA = [
 	{ "price": 1000, "income_increase": 2 },  # Level 1 -> 2
@@ -71,25 +72,45 @@ func operate(current_hour: int):
 		condition = 0
 		print("%s needs repair!" % name)
 
-	# Log the operation
-	# print("%s operated. Income: Rp %d, Cost: Rp %d, Net: Rp %d" % [name, adjusted_income, operational_cost + driver.fee, adjusted_income - operational_cost - driver.fee])
-
 # Upgrade the angkot to the next level
-func upgrade() -> bool:
+func upgrade() -> String:
 	if upgrade_level >= UPGRADE_DATA.size():
-		print("%s is already at the maximum level!" % name)
-		return false
+		return ("%s is already at the maximum level!" % name)
+		#return false
 
 	var next_upgrade = UPGRADE_DATA[upgrade_level - 1]  # Get the data for the next level
 	if Global.money >= next_upgrade["price"]:
 		Global.money -= next_upgrade["price"]  # Deduct the upgrade price
 		upgrade_level += 1
 		income_per_passenger += next_upgrade["income_increase"]  # Increase income per passenger
-		print("%s upgraded to level %d! New income per passenger: %d" % [name, upgrade_level, income_per_passenger])
-		return true
+		return ("%s upgraded to level %d! New income per passenger: %d" % [name, upgrade_level, income_per_passenger])
+		#return true
 	else:
-		print("Not enough money to upgrade %s!" % name)
-		return false
+		return ("Not enough money to upgrade %s!" % name)
+		#return false
+
+# Get upgrade information without applying the upgrade
+func upgrade_info() -> Angkot:
+	if upgrade_level >= UPGRADE_DATA.size():
+		print("%s is already at the maximum level!" % name)
+		return null
+
+	var next_upgrade = UPGRADE_DATA[upgrade_level - 1]  # Get the data for the next level
+	var upgraded_angkot = Angkot.new()
+	upgraded_angkot.name = name
+	upgraded_angkot.speed = speed
+	upgraded_angkot.capacity = capacity
+	upgraded_angkot.income_per_passenger = income_per_passenger + next_upgrade["income_increase"]
+	upgraded_angkot.upgrade_level = upgrade_level + 1
+	upgraded_angkot.image_path = image_path
+	upgraded_angkot.operation_time = operation_time
+	upgraded_angkot.condition = condition
+	upgraded_angkot.driver = driver
+	upgraded_angkot.current_region = current_region
+	upgraded_angkot.is_operating = is_operating
+	upgraded_angkot.fuel_cost_per_operation = fuel_cost_per_operation
+	upgraded_angkot.base_price = base_price
+	return upgraded_angkot
 
 # Start the angkot operation
 func start_operate() -> void:
