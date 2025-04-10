@@ -9,6 +9,7 @@ extends Control
 
 @onready var add_angkot_button = $VBoxContainer/HBoxContainer3/AddAngkotButton
 @onready var upgrade_terminal_button = $VBoxContainer/HBoxContainer3/UpgradeTerminalButton
+@onready var passenger_status_label = $VBoxContainer/HBoxContainer3/PassengerStatusLabel
 
 @onready var label_info = $ConfirmationBox/VBoxContainer/CenterContainer/InfoLabel
 
@@ -59,6 +60,12 @@ func update_ui():
 
 	# Update the label_capacity to show the number of angkots and the terminal's capacity
 	label_capacity.text = "Kapasitas angkot: %d/%d" % [angkots_in_region, terminal.capacity]
+	
+	var is_busy_hour = (Global.game_hours >= 6 and Global.game_hours <= 10) or (Global.game_hours >= 16 and Global.game_hours <= 19)
+	if is_busy_hour:
+		passenger_status_label.text ="Status penumpang: Sibuk"
+	else:
+		passenger_status_label.text ="Status penumpang: Sepi"
 	
 	for angkot in Global.angkots:
 		if angkot.current_region.short_name != Global.selected_region:
@@ -197,7 +204,7 @@ func _on_upgrade_angkot_button_pressed(angkot: Angkot):
 	var upgraded_angkot = angkot.upgrade_info()
 	var upgrade_price = 0
 	if angkot.upgrade_level < angkot.UPGRADE_DATA.size():
-		upgrade_price = angkot.UPGRADE_DATA[angkot.upgrade_level]["price"]
+		upgrade_price = angkot.UPGRADE_DATA[angkot.upgrade_level - 1]["price"]
 	label_info.text = "Upgrade Info:\nLv.%d | Speed: %d | Cap: %d | Income: Rp %d\nUpgrade Price: Rp %d" % [
 		upgraded_angkot.upgrade_level,
 		upgraded_angkot.speed,
@@ -220,15 +227,18 @@ func _on_upgrade_terminal_button_pressed(terminal: Terminal):
 	if terminal.level >= terminal.LEVEL_DATA.size():
 		label_info.text = "Level terminal sudah maksimal"
 		return
-
+	
 	# Get the upgrade info for the terminal
 	var upgraded_terminal = terminal.upgrade_info()
+	var upgrade_price = 0
+	if terminal.level < terminal.LEVEL_DATA.size():
+		upgrade_price = terminal.LEVEL_DATA[terminal.level - 1]["price"]
 	label_info.text = "Upgrade Info:\nLv.%d -> Lv.%d\nCapacity: %d -> %d\nUpgrade Price: Rp %d" % [
 	terminal.level,
 	upgraded_terminal.level,
 	terminal.capacity,
 	upgraded_terminal.capacity,
-	upgraded_terminal.upgrade_price
+	upgrade_price
 	]
 	print("Upgrade Info: ", label_info.text)
 

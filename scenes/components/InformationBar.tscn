@@ -8,21 +8,24 @@ custom_minimum_size = Vector2(0, 23)
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
-theme_override_constants/separation = 500
+theme_override_constants/separation = 200
 alignment = 1
 script = ExtResource("1_30qm0")
 
 [node name="LabelMoney" type="Label" parent="."]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.403922, 0.301961, 0.145098, 1)
 
 [node name="LabelTimer" type="Label" parent="."]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.403922, 0.301961, 0.145098, 1)
 text = "halo"
 
 [node name="TimeManager" type="Node" parent="." groups=["time_display"]]
 script = ExtResource("2_jcqvt")
 
 [node name="Timer" type="Timer" parent="TimeManager"]
+wait_time = 0.064
 autostart = true
 
 [connection signal="timeout" from="TimeManager/Timer" to="TimeManager" method="_on_timer_timeout"]

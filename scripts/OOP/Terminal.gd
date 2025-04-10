@@ -11,11 +11,11 @@ var image_path: String = "res://assets/terminal/TerminalLevel1.png"  # Image pat
 
 # Upgrade pricing and capacity for each level
 const LEVEL_DATA = [
-	{ "capacity": 5, "price": 100000 },   # Level 1
-	{ "capacity": 10, "price": 250000 },  # Level 2
-	{ "capacity": 15, "price": 500000 },  # Level 3
-	{ "capacity": 20, "price": 1000000 }, # Level 4
-	{ "capacity": 30, "price": 2000000 }, # Level 5
+	{ "capacity": 5, "price": 250000 },   # Level 1
+	{ "capacity": 10, "price": 500000 },  # Level 2
+	{ "capacity": 15, "price": 1000000 },  # Level 3
+	{ "capacity": 20, "price": 2000000 }, # Level 4
+	{ "capacity": 30, "price": 5000000 }, # Level 5
 	{ "capacity": 50, "price": 5000000 }  # Level 6
 ]
 

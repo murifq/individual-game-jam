@@ -37,10 +37,9 @@ func _on_selected_region_changed(new_region: String) -> void:
 func _update_region_info(region_name: String) -> void:
 	var region = Global.regions.get(region_name)
 	if region:
-		region_label.text = "Region: " + region.short_name
-		stats_label.text = "Population Density: %.2f\nTraffic Level: %.2f\nEconomic Activity: %.2f\nPrice: %d" % [
+		region_label.text = "Wilayah: " + region.short_name
+		stats_label.text = "Kepadatan penduduk: %.2f\nAktivitas ekonomi: %.2f\nBiaya: %d" % [
 			region.population_density,
-			region.traffic_level,
 			region.economic_activity,
 			region.price
 		]

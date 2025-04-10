@@ -19,7 +19,3 @@ func get_color() -> Color:
 # Calculate the income modifier based on region stats
 func calculate_income_modifier() -> float:
 	return population_density * economic_activity
-
-# Calculate the time modifier based on traffic level
-func calculate_time_modifier() -> float:
-	return traffic_level

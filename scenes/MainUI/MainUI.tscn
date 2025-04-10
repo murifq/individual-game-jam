@@ -14,7 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-color = Color(0, 0, 0, 1)
+color = Color(0.913725, 0.784314, 0.564706, 1)
 script = ExtResource("1_6gwic")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -53,10 +53,14 @@ text = "Kembali"
 
 [node name="LabelPage" type="Label" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.403922, 0.301961, 0.145098, 1)
+theme_override_colors/font_shadow_color = Color(0.403922, 0.301961, 0.145098, 1)
+theme_override_colors/font_outline_color = Color(0.403922, 0.301961, 0.145098, 1)
 text = "Armada Kamu di "
 
 [node name="LabelCapacity" type="Label" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.403922, 0.301961, 0.145098, 1)
 text = "Kapasitas"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
@@ -68,9 +72,14 @@ alignment = 1
 layout_mode = 2
 text = "Upgrade Terminal"
 
+[node name="PassengerStatusLabel" type="Label" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.403922, 0.301961, 0.145098, 1)
+text = "Status Penumpang: "
+
 [node name="AddAngkotButton" type="Button" parent="VBoxContainer/HBoxContainer3"]
 layout_mode = 2
-text = "Tambah Angkot"
+text = "Tambah Angkot  (80000)"
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -117,6 +126,13 @@ texture_normal = ExtResource("2_ciema")
 [node name="AngkotLabel" type="Button" parent="MarginContainer/ScrollContainer/AngkotList/AngkotItem"]
 custom_minimum_size = Vector2(650, 128)
 layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0.403922, 0.301961, 0.145098, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.403922, 0.301961, 0.145098, 1)
+theme_override_colors/font_hover_color = Color(0.403922, 0.301961, 0.145098, 1)
+theme_override_colors/font_pressed_color = Color(0.403922, 0.301961, 0.145098, 1)
+theme_override_colors/font_focus_color = Color(0.403922, 0.301961, 0.145098, 1)
+theme_override_colors/font_color = Color(0.403922, 0.301961, 0.145098, 1)
+theme_override_colors/font_outline_color = Color(0.403922, 0.301961, 0.145098, 1)
 text = "Angkot Name
 Lv.1 | Speed: 40 | Cap: 6 | Income: Rp 1000 | Condition: 100%"
 flat = true

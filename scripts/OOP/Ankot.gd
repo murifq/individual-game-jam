@@ -14,14 +14,14 @@ var driver: Driver = null  # Driver assigned to this angkot
 var current_region: Region = null  # Region where the Angkot is operating
 var is_operating: bool = false  # Whether the angkot is currently operating
 var fuel_cost_per_operation: int = 15  # Operational cost (e.g., fuel cost)
-var base_price = 20100
+var base_price = 80000
 
 # Upgrade pricing and income increase for each level
 const UPGRADE_DATA = [
-	{ "price": 1000, "income_increase": 2 },  # Level 1 -> 2
-	{ "price": 10000, "income_increase": 3 },  # Level 2 -> 3
-	{ "price": 25000, "income_increase": 4 },  # Level 3 -> 4
-	{ "price": 40000, "income_increase": 5 },  # Level 4 -> 5
+	{ "price": 10000, "income_increase": 2 },  # Level 1 -> 2
+	{ "price": 25000, "income_increase": 3 },  # Level 2 -> 3
+	{ "price": 40000, "income_increase": 4 },  # Level 3 -> 4
+	{ "price": 80000, "income_increase": 5 },  # Level 4 -> 5
 	{ "price": 80000, "income_increase": 6 },  # Level 5 -> 6
 ]
 
@@ -38,7 +38,7 @@ func operate(current_hour: int):
 		return
 
 	# Determine if it's a busy hour (morning or evening rush hours)
-	var is_busy_hour = (current_hour >= 6 and current_hour <= 9) or (current_hour >= 16 and current_hour <= 19)
+	var is_busy_hour = (current_hour >= 6 and current_hour <= 10) or (current_hour >= 16 and current_hour <= 19)
 
 	# Simulate passenger occupancy (e.g., 50% to 100% of capacity)
 	var occupancy_rate = randf() * 0.5 + 0.5  # Random value between 0.5 and 1.0
@@ -52,7 +52,7 @@ func operate(current_hour: int):
 	if is_busy_hour:
 		adjusted_income *= 1.5  # 50% more income during busy hours
 	else:
-		adjusted_income *= randf()  # Random value between 0 and 1 during non-busy hours
+		adjusted_income *= randf() + 0.25  # Random value between 0 and 1 during non-busy hours
 
 	# Deduct operational costs (e.g., fuel cost)
 	var operational_cost = fuel_cost_per_operation

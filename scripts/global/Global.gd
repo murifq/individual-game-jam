@@ -32,6 +32,7 @@ var is_initialized: bool = false
 # Function to create a new Angkot with default values
 func create_new_angkot(name: String = "Angkot", speed: int = 40, capacity: int = 6, income_per_passenger: int = 5, image_path: String = "res://assets/Angkot.png", driver: Driver = null) -> Angkot:
 	var new_angkot = Angkot.new()
+	Global.money = Global.money - 80000
 	new_angkot.name = name
 	new_angkot.speed = speed
 	new_angkot.capacity = capacity
@@ -50,7 +51,7 @@ func create_new_terminal(region: Region) -> Terminal:
 	return new_terminal
 
 func reset_game():
-	money = 250000000
+	money = 25000
 	angkots.clear()
 	drivers.clear()
 	regions.clear()
@@ -91,46 +92,41 @@ func reset_game():
 	jakbar.name = "Jakarta Barat"
 	jakbar.short_name = "jakbar"
 	jakbar.population_density = 1.2
-	jakbar.traffic_level = 1.5
 	jakbar.economic_activity = 1.1
 	jakbar.is_locked = false
-	jakbar.price = 0
+	jakbar.price = 180000
 
 	var jakpus = Region.new()
 	jakpus.name = "Jakarta Pusat"
 	jakpus.short_name = "jakpus"
 	jakpus.population_density = 1.5
-	jakpus.traffic_level = 1.2
 	jakpus.economic_activity = 1.3
 	jakpus.is_locked = true
-	jakpus.price = 20000
+	jakpus.price = 250000
 
 	var jakut = Region.new()
 	jakut.name = "Jakarta Utara"
 	jakut.short_name = "jakut"
 	jakut.population_density = 1.1
-	jakut.traffic_level = 1.3
 	jakut.economic_activity = 1.0
 	jakut.is_locked = true
-	jakut.price = 15000
+	jakut.price = 150000
 
 	var jaksel = Region.new()
 	jaksel.name = "Jakarta Selatan"
 	jaksel.short_name = "jaksel"
 	jaksel.population_density = 1.3
-	jaksel.traffic_level = 1.4
 	jaksel.economic_activity = 1.2
 	jaksel.is_locked = true
-	jaksel.price = 18000
+	jaksel.price = 180000
 
 	var jaktim = Region.new()
 	jaktim.name = "Jakarta Timur"
 	jaktim.short_name = "jaktim"
 	jaktim.population_density = 1.4
-	jaktim.traffic_level = 1.6
 	jaktim.economic_activity = 1.1
-	jaktim.is_locked = false
-	jaktim.price = 18000
+	jaktim.is_locked = true
+	jaktim.price = 180000
 
 	regions = {
 		"jakbar": jakbar,
@@ -145,7 +141,9 @@ func reset_game():
 	a1.driver = driver1
 	var a2 = create_new_angkot()
 	a2.driver = driver2
-
+	
+	Global.money = 80000
+	
 	angkots.append(a1)
 	angkots.append(a2)
 

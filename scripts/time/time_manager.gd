@@ -26,3 +26,6 @@ func _on_timer_timeout():
 		angkot.operate(Global.game_hours)
 	# Update the UI timer
 	get_tree().call_group("time_display", "update_time_display")
+	if(Global.money < 0):
+		get_tree().change_scene_to_file("res://scenes/MainUI/LoseScreen.tscn")
+		
