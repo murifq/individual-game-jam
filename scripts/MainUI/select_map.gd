@@ -49,7 +49,7 @@ func _update_region_info(region_name: String) -> void:
 			button.text = "Atur Wilayah"
 		button.visible = true
 	else:
-		region_label.text = "Kamu belum meilih wilayah!"
+		region_label.text = "Kamu belum memilih wilayah!"
 		stats_label.text = ""
 		button.visible = false
 

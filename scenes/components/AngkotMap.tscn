@@ -1,7 +1,56 @@
 [gd_scene load_steps=3 format=3 uid="uid://bo6nhkikk0432"]
 
 [ext_resource type="Texture2D" uid="uid://i8mo8thmgy6v" path="res://Map_data/region_map_transparant.png" id="1_wlwo5"]
-[ext_resource type="Script" path="res://scripts/components/RegionHandler.gd" id="2_h6qrc"]
+
+[sub_resource type="GDScript" id="GDScript_u062k"]
+script/source = "extends Area2D
+
+# Reference to the Polygon2D node
+@onready var polygon = $Polygon2D
+# Signal to notify when the mouse enters or exits a region
+signal region_hovered(region_name: String)
+signal region_unhovered(region_name: String)
+signal region_clicked(region_name: String)
+
+# Change color to the region's color when mouse enters
+func _on_mouse_entered(region_name: String) -> void:
+	#var region: Region = Global.regions.get(region_name)  # Explicitly type as Region
+	#print(\"Line 10 \", region.is_locked)
+	var region = Global.regions[region_name]
+	emit_signal(\"region_hovered\", region_name)
+	if region:
+		if region.is_locked:
+			# Highlight locked region with a red tint
+			polygon.color = Color(1, 0.5, 0.5, 1)  # Red tint for locked regions
+			print(\"locked: \", region_name)
+		else:
+			# Highlight unlocked region with its real color
+			polygon.color = Color(0, 1, 0, 1)
+			print(\"unlocked: \", region_name)
+
+# Change color back to the region's default color when mouse exits
+func _on_mouse_exited(region_name: String) -> void:
+	var region = Global.regions[region_name]
+	emit_signal(\"region_unhovered\", region_name)
+	if region:
+		polygon.color = region.get_color()
+
+
+func _on_ready(region_name: String) -> void:
+	if not Global.is_initialized:
+		Global.reset_game()
+	print(\"Line 32\")
+	print(\"region_name: \", region_name)
+	var region = Global.regions[region_name]
+	if region:
+		polygon.color = region.get_color()
+		print(region.get_color())
+
+func _on_input_event(viewport, event, shape_idx, region_name:String):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
+		print(str(region_name) + \" Clicked\")
+		emit_signal(\"region_clicked\", region_name)
+"
 
 [node name="AngkotMap" type="CenterContainer"]
 anchors_preset = 15
@@ -15,7 +64,7 @@ layout_mode = 2
 texture = ExtResource("1_wlwo5")
 
 [node name="JakbarArea2D" type="Area2D" parent="TextureRect"]
-script = ExtResource("2_h6qrc")
+script = SubResource("GDScript_u062k")
 
 [node name="JakbarCollisionPolygon2D" type="CollisionPolygon2D" parent="TextureRect/JakbarArea2D"]
 visible = false
@@ -32,7 +81,7 @@ default_color = Color(0, 1, 1, 1)
 
 [node name="JakpusArea2D" type="Area2D" parent="TextureRect"]
 position = Vector2(383, 228)
-script = ExtResource("2_h6qrc")
+script = SubResource("GDScript_u062k")
 
 [node name="JakpusCollisionPolygon2D" type="CollisionPolygon2D" parent="TextureRect/JakpusArea2D"]
 visible = false
@@ -51,7 +100,7 @@ default_color = Color(0, 1, 1, 1)
 
 [node name="JakutArea2D" type="Area2D" parent="TextureRect"]
 position = Vector2(450, 233)
-script = ExtResource("2_h6qrc")
+script = SubResource("GDScript_u062k")
 
 [node name="JakutCollisionPolygon2D" type="CollisionPolygon2D" parent="TextureRect/JakutArea2D"]
 polygon = PackedVector2Array(-123, -214, 37, -220, 67, -224, 75, -217, 75, -208, 71, -202, 77, -163, 75, -126, 76, -116, 42, -97, 27, -97, 18, -110, -10, -102, -24, -92, -23, -58, -50, -64, -66, -74, -88, -88, -89, -93, -98, -98, -104, -96, -126, -118, -139, -148, -146, -155, -156, -150, -160, -137, -163, -133, -173, -131, -184, -145, -193, -145, -211, -152, -232, -152, -244, -139, -279, -131, -298, -138, -325, -154, -362, -177, -397, -220, -371, -231, -349, -209, -298, -208, -267, -203, -269, -226, -226, -219, -221, -183, -186, -180, -184, -172, -158, -185)
@@ -66,7 +115,7 @@ default_color = Color(0, 1, 1, 1)
 
 [node name="JakselArea2D" type="Area2D" parent="TextureRect"]
 position = Vector2(393, 536)
-script = ExtResource("2_h6qrc")
+script = SubResource("GDScript_u062k")
 
 [node name="JakselCollisionPolygon2D" type="CollisionPolygon2D" parent="TextureRect/JakselArea2D"]
 polygon = PackedVector2Array(-300, -291, -294, -279, -285, -271, -285, -260, -278, -250, -278, -219, -243, -153, -228, -141, -183, -139, -210, -88, -211, -68, -207, -59, -200, -56, -177, -56, -138, -68, -127, -77, -121, -103, -122, -136, -108, -147, -102, -157, -101, -174, -108, -212, -96, -227, -87, -254, -82, -295, -88, -314, -125, -320, -137, -321, -143, -306, -161, -292, -183, -281, -187, -287, -189, -305, -194, -309, -208, -306, -222, -285, -223, -269, -244, -277, -252, -284)
@@ -81,7 +130,7 @@ default_color = Color(0, 1, 1, 1)
 
 [node name="JaktimArea2D" type="Area2D" parent="TextureRect"]
 position = Vector2(631, 516)
-script = ExtResource("2_h6qrc")
+script = SubResource("GDScript_u062k")
 
 [node name="JaktimCollisionPolygon2D" type="CollisionPolygon2D" parent="TextureRect/JaktimArea2D"]
 polygon = PackedVector2Array(-321, -296, -316, -277, -318, -240, -339, -189, -335, -134, -356, -115, -354, -79, -345, -71, -339, -69, -332, -51, -324, -46, -314, -46, -304, -35, -297, -24, -279, -23, -265, -27, -256, -34, -241, -39, -234, -47, -237, -65, -231, -78, -225, -122, -228, -147, -242, -158, -248, -179, -247, -194, -256, -207, -252, -221, -202, -221, -187, -231, -181, -244, -177, -265, -147, -298, -136, -323, -133, -358, -133, -378, -141, -376, -157, -377, -166, -387, -194, -377, -199, -372, -199, -334, -246, -351, -266, -366, -275, -359, -278, -325, -318, -307, -318, -300)

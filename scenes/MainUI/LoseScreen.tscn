@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dup5e8rgj06xj"]
+[gd_scene load_steps=3 format=3 uid="uid://dup5e8rgj06xj"]
 
 [ext_resource type="Texture2D" uid="uid://d1sh2skw6byvn" path="res://assets/LoseImage.png" id="1_jh00k"]
+[ext_resource type="Script" path="res://scripts/MainUI/lose_screen.gd" id="1_ld84j"]
 
 [node name="LoseScreen" type="ColorRect"]
 anchors_preset = 15
@@ -9,6 +10,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.976471, 0.956863, 0.913725, 1)
+script = ExtResource("1_ld84j")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -33,3 +35,7 @@ custom_minimum_size = Vector2(500, 500)
 layout_mode = 2
 texture = ExtResource("1_jh00k")
 expand_mode = 3
+
+[node name="PlayAgainButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Ulangi Permainan"

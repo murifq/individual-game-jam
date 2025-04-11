@@ -22,10 +22,21 @@ offset_bottom = 574.0
 texture = ExtResource("2_ldmm2")
 expand_mode = 5
 
-[node name="PlayButton" type="Button" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(1152, 0)
+layout_mode = 0
+offset_top = 600.0
+offset_right = 47.0
+offset_bottom = 640.0
+alignment = 1
+
+[node name="TutorButton" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
-offset_left = 501.0
-offset_top = 590.0
-offset_right = 651.0
-offset_bottom = 638.0
+text = "Tutorial
+"
+
+[node name="PlayButton" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
 text = "Main"

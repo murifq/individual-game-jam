@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnj3bugsga0n6"]
+
+[ext_resource type="Texture2D" uid="uid://cuybrucmh1a1v" path="res://assets/tutorial/3. show main ui list of angkots.png" id="1_0sgvu"]
+[ext_resource type="Script" path="res://scenes/tutorial/6.gd" id="1_w8ra7"]
+
+[node name="SelectMapTutor" type="Container"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w8ra7")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(1152, 648)
+layout_mode = 2
+texture = ExtResource("1_0sgvu")
+expand_mode = 3
+
+[node name="ColorRect" type="ColorRect" parent="TextureRect"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+offset_left = 176.0
+offset_top = 21.0
+offset_right = 976.0
+offset_bottom = 171.0
+color = Color(0.403922, 0.301961, 0.145098, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TextureRect/ColorRect/VBoxContainer"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+text = "Kamu bisa melihat terminal kamu dan daftar angkot yang kamu miliki.
+Jangan lupa untuk memilih supir dan perbaiki angkot jika rusak ya!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="TextureRect/ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "Selanjutnya"

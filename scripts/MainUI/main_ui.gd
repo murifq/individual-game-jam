@@ -138,6 +138,8 @@ func _on_add_angkot_button_pressed():
 		return
 
 	# Create a new angkot and assign it to the current region
+	if Global.money < 80000:
+		return
 	var new_angkot = Global.create_new_angkot()
 	new_angkot.current_region = Global.regions[Global.selected_region]
 	Global.angkots.append(new_angkot)
