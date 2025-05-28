@@ -4,6 +4,7 @@ extends ColorRect
 @onready var stats_label = $HBoxContainer/ColorRect/CenterContainer/VBoxContainer/StatsLabel
 @onready var button = $HBoxContainer/ColorRect/CenterContainer/VBoxContainer/Button
 @onready var region_map = $HBoxContainer/VBoxContainer/CanvasLayer/AngkotMap
+@onready var achievement_button: Button = $VBoxContainer/HBoxContainer2/AchievementButton
 
 # Track the currently hovered and clicked regions
 var hovered_region: String = ""
@@ -20,6 +21,9 @@ func _ready() -> void:
 
 	# Connect the button
 	button.pressed.connect(self._on_button_pressed)
+	
+	 # Connect the AchievementButton
+	achievement_button.pressed.connect(self._on_achievement_button_pressed)
 
 	# Connect signals for each region in the map
 	for region_node in region_map.get_children():
@@ -92,3 +96,8 @@ func _on_region_unhovered(region_name: String) -> void:
 func _on_region_clicked(region_name: String) -> void:
 	clicked_region = region_name  # Freeze the stats display to the clicked region
 	_update_region_info(region_name)
+
+# Handle the AchievementButton press
+func _on_achievement_button_pressed() -> void:
+	# Navigate to the Achievement scene
+	get_tree().change_scene_to_file("res://scenes/MainUI/Achievement.tscn")

@@ -1,12 +1,13 @@
 extends Node
 
 # Global variables
-var money: int = 25000
+var money: int = 80000
 var angkots: Array[Angkot] = []
 var drivers: Array[Driver] = []
 var regions: Dictionary = {}  # Dictionary to store all regions
 var terminals: Dictionary = {}  # Dictionary to store all terminals
 var selected_angkot: Angkot = null
+var achievements: Array[Achievement] = []
 
 # Time variables
 var game_minutes: int = 0
@@ -51,7 +52,7 @@ func create_new_terminal(region: Region) -> Terminal:
 	return new_terminal
 
 func reset_game():
-	money = 25000
+	money = 80000
 	angkots.clear()
 	drivers.clear()
 	regions.clear()
@@ -139,10 +140,14 @@ func reset_game():
 	# Create angkots using the new function
 	var a1 = create_new_angkot()
 	a1.driver = driver1
+	driver1.angkot = a1
+	driver1.is_assigned = true
 	var a2 = create_new_angkot()
 	a2.driver = driver2
+	driver2.angkot = a2
+	driver2.is_assigned = true
 	
-	Global.money = 80000
+	Global.money = 80000	
 	
 	angkots.append(a1)
 	angkots.append(a2)
@@ -169,6 +174,8 @@ func reset_game():
 	}
 
 	is_initialized = true
+	
+	initialize_achievements()
 
 # Format time as HH:MM
 func get_time_string() -> String:
@@ -183,3 +190,51 @@ func get_time_string() -> String:
 # Get day as string
 func get_day_string() -> String:
 	return "Day %d" % game_days
+
+
+# Function to initialize achievements
+# Function to initialize achievements
+func initialize_achievements():
+	achievements.clear()
+	achievements.append(Achievement.new("Mempunyai duit Rp 100,000"))  # Achievement 0
+	achievements.append(Achievement.new("Upgrade Terminal menjadi Level 2"))  # Achievement 1
+	achievements.append(Achievement.new("Memiliki 3 Angkot"))  # Achievement 2
+	achievements.append(Achievement.new("Memiliki 3 Supir"))  # Achievement 3
+	achievements.append(Achievement.new("Mengelola Jakarta Pusat"))  # Achievement 4
+	achievements.append(Achievement.new("Mempunyai duit Rp 200,000"))  # Achievement 5
+	achievements.append(Achievement.new("Upgrade 2 Terminal ke Level 3"))  # Achievement 6
+
+# Function to check and unlock achievements
+func check_achievements():
+	# Check if the player has earned Rp 80,300
+	if money >= 100000 and not achievements[0].is_achieved:
+		achievements[0].achieve()
+
+	# Check if a terminal is upgraded to level 2
+	for terminal in terminals.values():
+		if terminal.level >= 2 and not achievements[1].is_achieved:
+			achievements[1].achieve()
+
+	# Check if the player owns 5 angkots
+	if angkots.size() >= 3 and not achievements[2].is_achieved:
+		achievements[2].achieve()
+
+	# Check if the player has hired 5 drivers
+	if drivers.size() >= 3 and not achievements[3].is_achieved:
+		achievements[3].achieve()
+
+	# Check if Jakarta Pusat is unlocked
+	if "jakpus" in regions and not regions["jakpus"].is_locked and not achievements[4].is_achieved:
+		achievements[4].achieve()
+
+	# Check if the player has earned Rp 200,000
+	if money >= 200000 and not achievements[5].is_achieved:
+		achievements[5].achieve()
+
+	# Check if 2 terminals are upgraded to level 3
+	var level_3_terminals = 0
+	for terminal in terminals.values():
+		if terminal.level >= 3:
+			level_3_terminals += 1
+	if level_3_terminals >= 2 and not achievements[6].is_achieved:
+		achievements[6].achieve()

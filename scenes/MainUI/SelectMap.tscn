@@ -50,6 +50,10 @@ theme_override_colors/font_shadow_color = Color(0.403922, 0.301961, 0.145098, 1)
 theme_override_font_sizes/font_size = 20
 text = "Pilih Derah"
 
+[node name="AchievementButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Lihat Pencapaian"
+
 [node name="TimeManager" type="Node" parent="." groups=["time_display"]]
 script = ExtResource("3_iyfbv")
 
@@ -63,7 +67,9 @@ anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -502.0
+offset_top = 74.0
 offset_right = 502.0
+offset_bottom = 74.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1

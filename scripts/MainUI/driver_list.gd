@@ -50,9 +50,11 @@ func populate_driver_list():
 		if driver.is_assigned and driver == Global.selected_angkot.driver:
 			AssignButton.text = "Lepaskan"
 			AssignButton.connect("pressed", self._on_detach_driver_pressed.bind(driver))
-		else:
+		elif driver.is_assigned == false:
 			AssignButton.text = "Tetapkan"
 			AssignButton.connect("pressed", self._on_assign_button_pressed.bind(driver))
+		else:
+			continue
 		
 		# Connect the Fire button
 		FireButton.connect("pressed", self._on_fire_button_pressed.bind(driver))
@@ -75,6 +77,7 @@ func _on_assign_button_pressed(driver: Driver):
 		if Global.selected_angkot.driver:
 			Global.selected_angkot.driver.is_assigned = false
 		Global.selected_angkot.driver = driver
+		driver.angkot = Global.selected_angkot
 		driver.is_assigned = true
 		print("Assigned %s to %s" % [driver.name, Global.selected_angkot.name])
 		
@@ -89,6 +92,7 @@ func _on_detach_driver_pressed(driver: Driver):
 		if angkot.driver == driver:
 			angkot.driver = null
 			driver.is_assigned = false
+			driver.angkot = null
 			print("Driver %s has been detached from Angkot %s" % [driver.name, angkot.name])
 			break
 	
@@ -101,6 +105,7 @@ func _on_fire_button_pressed(driver: Driver):
 		if angkot.driver == driver:
 			# Detach the driver from the Angkot
 			angkot.driver = null
+			driver.angkot = null
 			print("Driver %s has been detached from Angkot %s" % [driver.name, angkot.name])
 			break
 
